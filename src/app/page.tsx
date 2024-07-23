@@ -21,7 +21,7 @@ export default function Home() {
               <h1 className="relative w-fit tracking-tight text-balance mt-16 font-bold !leading-tight text-gray-900 text-5xl md:text-6xl lg:text-7xl">
                 Your Image on a{" "}
                 <span className="bg-green-600 px-2 text-white">Custom</span>{" "}
-                Phone Case
+                T-Shirt
               </h1>
               <p className="mt-8 text-lg lg:pr-10 max-w-prose text-center lg:text-left text-balance md:text-wrap">
                 Capture your favorite memories with your own,{" "}
@@ -103,7 +103,8 @@ export default function Home() {
                 src="/line.png"
                 className="absolute w-20 -left-6 -bottom-6 select-none"
               />
-              <Phone className="w-64" imgSrc="/testimonials/1.jpg" />
+              {/* <Phone className="w-64" imgSrc="/testimonials/1.jpg" /> */}
+              <img src="/tshirts/tshirt-hero1.png" />
             </div>
           </div>
         </MaxWidthWrapper>
@@ -211,7 +212,7 @@ export default function Home() {
               <h2 className="order-1 mt-2 tracking-tight text-center text-balance !leading-tight font-bold text-5xl md:text-6xl text-gray-900">
                 Upload your photo and get{" "}
                 <span className="relative px-2 bg-green-600 text-white">
-                  your own case
+                  your own Tshirt
                 </span>{" "}
                 now
               </h2>
@@ -226,13 +227,21 @@ export default function Home() {
               />
 
               <div className="relative h-80 md:h-full w-full md:justify-self-end max-w-sm rounded-xl bg-gray-900/5 ring-inset ring-gray-900/10 lg:rounded-2xl">
-                <img
+                {/* <img
                   src="/horse.jpg"
+                  className="rounded-md object-cover bg-white shadow-2xl ring-1 ring-gray-900/10 h-full w-full"
+                /> */}
+                <img
+                  src="/tshirts/one-piece-wanted.jpg"
                   className="rounded-md object-cover bg-white shadow-2xl ring-1 ring-gray-900/10 h-full w-full"
                 />
               </div>
 
-              <Phone className="w-60" imgSrc="/horse_phone.jpg" />
+              {/* <Phone className="w-60" imgSrc="/horse_phone.jpg" /> */}
+              <img
+                className="w-full object-cover"
+                src="/tshirts/shirt-one-piece.png"
+              />
             </div>
           </div>
 

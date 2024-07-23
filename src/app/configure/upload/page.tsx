@@ -54,7 +54,7 @@ const Page = () => {
         }
       )}
     >
-      <div className="relative flex flex-1 flex-col items-ceter justify-center w-full">
+      <div className="container relative flex flex-1 flex-col items-ceter justify-center w-full">
         <DropZone
           onDropAccepted={onDropAccepted}
           onDropRejected={onDropRejected}
