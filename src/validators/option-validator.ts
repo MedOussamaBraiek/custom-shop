@@ -1,5 +1,5 @@
 // bg-blue-950 border-blue-950
-// bg-zinc-950 border-zinc-950
+// bg-black border-black
 // bg-white border-white
 
 import { PRODUCT_PRICES } from "@/config/products"
@@ -8,7 +8,7 @@ export const COLORS = [
     {
         label: "Black",
         value: "black",
-        tw: "zinc-950"
+        tw: "black"
     },
     {
         label: "White",
@@ -16,8 +16,8 @@ export const COLORS = [
         tw: "white"
     },
     {
-        label: "Bleu",
-        value: "bleu",
+        label: "Blue",
+        value: "blue",
         tw: "blue-950"
     },
     
@@ -71,12 +71,12 @@ export const MATERIALS = {
     ]
 } as const
 
-export const FINIHES = {
+export const FINISHES = {
     name: 'finish',
     options: [
         {
             label: "Smouth  Finish",
-            value: "smouth",
+            value: "smooth",
             description: undefined,
             price: PRODUCT_PRICES.finish.smooth
         },
