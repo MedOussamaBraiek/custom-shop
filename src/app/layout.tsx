@@ -5,13 +5,11 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/toaster";
 import Providers from "@/components/Providers";
+import { constructMetaData } from "@/lib/utils";
 
 const recursive = Recursive({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "JOCKER-SHOP",
-  description: "Custom Shop",
-};
+export const metadata = constructMetaData();
 
 export default function RootLayout({
   children,
@@ -23,8 +21,9 @@ export default function RootLayout({
       <body className={recursive.className}>
         <Navbar />
         <main className="flex flex-col min-h-[calc(100vh-3.5rem-1px)] grainy-light">
-          {/* <div className="flex flex-1 flex-col h-full"></div> */}
-          <Providers>{children}</Providers>
+          <div className="flex-1 flex flex-col h-full">
+            <Providers>{children}</Providers>
+          </div>
           <Footer />
         </main>
 
