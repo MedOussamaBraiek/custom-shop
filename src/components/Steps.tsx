@@ -5,18 +5,18 @@ import { usePathname } from "next/navigation";
 
 const STEPS = [
   {
-    name: "Step 1: Add image",
-    description: "Choose an image for your case",
+    name: "Étape 1 : Ajouter une image",
+    description: "Choisissez une image pour votre produit",
     url: "/upload",
   },
   {
-    name: "Step 2: Customize design",
-    description: "Make the case yours",
+    name: "Étape 2 : Personnaliser la conception",
+    description: "Personnalisez votre produit",
     url: "/design",
   },
   {
-    name: "Step 3: Summary",
-    description: "Review your final design",
+    name: "Étape 3 : Résumé",
+    description: "Révisez votre conception finale",
     url: "/preview",
   },
 ];

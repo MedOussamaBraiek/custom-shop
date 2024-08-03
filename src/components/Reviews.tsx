@@ -5,14 +5,20 @@ import MaxWidthWrapper from "./MaxWidthWrapper";
 import { useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Phone from "./Phone";
+import Tshirt from "./Tshirt";
 
 const PHONES = [
-  "/testimonials/1.jpg",
-  "/testimonials/2.jpg",
-  "/testimonials/3.jpg",
-  "/testimonials/4.jpg",
-  "/testimonials/5.jpg",
-  "/testimonials/6.jpg",
+  "/cups/boss.avif",
+  "/tshirts/wanted.png",
+  "/cups/anim.png",
+  "/cups/hat.jpg",
+  "/tshirts/marvel.png",
+  "/cups/hubby.jpg",
+  "/tshirts/shirt-tunisia.png",
+  "/tshirts/marvel2.png",
+  "/cups/tunisia.png",
+  "/tshirts/love.png",
+  "/tshirts/golden.png",
 ];
 
 function splitArray<T>(array: Array<T>, numParts: number) {
@@ -103,7 +109,14 @@ function Review({ imgSrc, className, ...props }: ReviewProps) {
       style={{ animationDelay }}
       {...props}
     >
-      <Phone imgSrc={imgSrc} />
+      <img src={imgSrc} alt="example" />
+      {/* <Tshirt imgSrc={imgSrc} /> */}
+      {/* <Phone imgSrc={imgSrc} /> */}
+      {/* <Tshirt
+            dark={tw === "white" ? false : true}
+            imgSrc={configuration.croppedImageUrl!}
+            className={cn(`bg-${tw}, "max-w-[150px] sm:min-w-fit md:mx-w-full`)}
+          /> */}
     </div>
   );
 }

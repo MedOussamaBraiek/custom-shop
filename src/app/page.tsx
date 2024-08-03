@@ -16,33 +16,37 @@ export default function Home() {
               <div className="absolute w-28 left-0 -top-20 hidden lg:block">
                 {/* i forgot this div right here in the video, it's purely visual gradient and looks nice */}
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t via-slate-50/50 from-slate-50 h-28" />
-                <img src="/snake-1.png" className="w-full" />
+                <img src="/jocker-logo.png" className="w-full" />
               </div>
               <h1 className="relative w-fit tracking-tight text-balance mt-16 font-bold !leading-tight text-gray-900 text-5xl md:text-6xl lg:text-7xl">
-                Your Image on a{" "}
-                <span className="bg-green-600 px-2 text-white">Custom</span>{" "}
-                T-Shirt
+                Votre image sur un produit{" "}
+                <span className="bg-green-600 px-2 text-white">
+                  personnalisé
+                </span>{" "}
               </h1>
               <p className="mt-8 text-lg lg:pr-10 max-w-prose text-center lg:text-left text-balance md:text-wrap">
-                Capture your favorite memories with your own,{" "}
-                <span className="font-semibold">one-of-one</span> phone case.
-                CaseCobra allows you to protect your memories, not just your
-                phone case.
+                Capturez vos moments, héros, légendes ou mèmes préférés avec les
+                produits personnalisés de{" "}
+                <span className="font-semibold">JOCKER-SHOP</span>. Des t-shirts
+                aux tasses en passant par les chapeaux, nous transformons les
+                images de votre galerie en créations uniques.{" "}
+                <span className="font-semibold">Personnalisez</span> votre
+                produit avant de l'acheter.
               </p>
 
               <ul className="mt-8 space-y-2 text-left font-medium flex flex-col items-center sm:items-start">
                 <div className="space-y-2">
                   <li className="flex gap-1.5 items-center text-left">
                     <Check className="h-5 w-5 shrink-0 text-green-600" />
-                    High-quality, durable material
-                  </li>
-                  <li className="flex gap-1.5 items-center text-left">
-                    <Check className="h-5 w-5 shrink-0 text-green-600" />5 year
-                    print guarantee
+                    T-shirts de haute qualité
                   </li>
                   <li className="flex gap-1.5 items-center text-left">
                     <Check className="h-5 w-5 shrink-0 text-green-600" />
-                    Modern iPhone models supported
+                    Impression de haute qualité
+                  </li>
+                  <li className="flex gap-1.5 items-center text-left">
+                    <Check className="h-5 w-5 shrink-0 text-green-600" />
+                    Chez JOCKER-SHOP vous êtes le Designer
                   </li>
                 </div>
               </ul>
@@ -86,7 +90,8 @@ export default function Home() {
                   </div>
 
                   <p>
-                    <span className="font-semibold">1.250</span> happy customers
+                    <span className="font-semibold">1.250</span> clients
+                    satisfaits
                   </p>
                 </div>
               </div>
@@ -115,12 +120,11 @@ export default function Home() {
         <MaxWidthWrapper className="flex flex-col items-center gap-16 sm:gap-32">
           <div className="flex flex-col lg:flex-row items-center gap-4 sm:gap-6">
             <h2 className="order-1 mt-2 tracking-tight text-center text-balance !leading-tight font-bold text-5xl md:text-6xl text-gray-900">
-              What our{" "}
+              Ce que disent nos{" "}
               <span className="relative px-2">
-                customers{" "}
+                clients{" "}
                 <Icons.underline className="hidden sm:block pointer-events-none absolute inset-x-0 -bottom-6 text-green-500" />
               </span>{" "}
-              say
             </h2>
             <img src="/snake-2.png" className="w-24 order-0 lg:order-2" />
           </div>
@@ -136,13 +140,14 @@ export default function Home() {
               </div>
               <div className="text-lg leading-8">
                 <p>
-                  The case feels durable and I even got a compliment on the
-                  design. Had the case for two and a half months now and{" "}
+                  La chemise semble résistante et j'ai même reçu un compliment
+                  sur le design. J'ai la chemise depuis deux semaines et demi
+                  maintenant et{" "}
                   <span className="p-0.5 bg-slate-800 text-white">
-                    the image is super clear
+                    l'imprimé est super clair
                   </span>
-                  , on the case I had before, the image started fading into
-                  yellow-ish color after a couple weeks. Love it.
+                  . Sur la chemise que j'avais avant, l'imprimé a commencé à
+                  s'estomper et à se fissurer après quelques semaines. J'adore.{" "}
                 </p>
               </div>
               <div className="flex gap-4 mt-2">
@@ -155,7 +160,7 @@ export default function Home() {
                   <p className="font-semibold">Jonathan</p>
                   <div className="flex gap-1.5 items-center text-zinc-600">
                     <Check className="h-4 w-4 stroke-[3px] text-green-600" />
-                    <p className="text-sm">Verified Purchase</p>
+                    <p className="text-sm">Achat vérifié</p>
                   </div>
                 </div>
               </div>
@@ -172,14 +177,13 @@ export default function Home() {
               </div>
               <div className="text-lg leading-8">
                 <p>
-                  I usually keep my phone together with my keys in my pocket and
-                  that led to some pretty heavy scratchmarks on all of my last
-                  phone cases. This one, besides a barely noticeable scratch on
-                  the corner,{" "}
+                  J'ai acheté une tasse personnalisée et elle semble
+                  incroyablement durable. L'image est lumineuse et vive. La{" "}
                   <span className="p-0.5 bg-slate-800 text-white">
-                    looks brand new after about half a year
+                    qualité d'impression est excellente
                   </span>
-                  . I dig it.
+                  , contrairement à d'autres tasses où le motif commence à
+                  s'estomper après quelques semaines. Je l'adore !
                 </p>
               </div>
               <div className="flex gap-4 mt-2">
@@ -192,7 +196,7 @@ export default function Home() {
                   <p className="font-semibold">Josh</p>
                   <div className="flex gap-1.5 items-center text-zinc-600">
                     <Check className="h-4 w-4 stroke-[3px] text-green-600" />
-                    <p className="text-sm">Verified Purchase</p>
+                    <p className="text-sm">Achat vérifié</p>
                   </div>
                 </div>
               </div>
@@ -210,11 +214,11 @@ export default function Home() {
           <div className="mb-12 px-6 lg:px-8">
             <div className="mx-auto max-w-2xl sm:text-center">
               <h2 className="order-1 mt-2 tracking-tight text-center text-balance !leading-tight font-bold text-5xl md:text-6xl text-gray-900">
-                Upload your photo and get{" "}
+                Téléchargez votre photo et obtenez{" "}
                 <span className="relative px-2 bg-green-600 text-white">
-                  your own Tshirt
+                  votre propre produit
                 </span>{" "}
-                now
+                maintenant
               </h2>
             </div>
           </div>
@@ -248,19 +252,19 @@ export default function Home() {
           <ul className="mx-auto mt-12 max-w-prose sm:text-lg space-y-2 w-fit">
             <li className="w-fit">
               <Check className="h-5 w-5 text-green-600 inline mr-1.5" />
-              High-quality silicone material
+              Chez JOCKER-SHOP vous êtes le Designer
             </li>
             <li className="w-fit">
               <Check className="h-5 w-5 text-green-600 inline mr-1.5" />
-              Scratch- and fingerprint resistant coating
+              T-shirts de haute qualité
             </li>
             <li className="w-fit">
               <Check className="h-5 w-5 text-green-600 inline mr-1.5" />
-              Wireless charging compatible
+              Impression de haute qualité
             </li>
             <li className="w-fit">
-              <Check className="h-5 w-5 text-green-600 inline mr-1.5" />5 year
-              print warranty
+              <Check className="h-5 w-5 text-green-600 inline mr-1.5" />
+              Livraison à domicile
             </li>
 
             <div className="flex justify-center">
@@ -271,7 +275,8 @@ export default function Home() {
                 })}
                 href="/configure/upload"
               >
-                Create your case now <ArrowRight className="h-4 w-4 ml-1.5" />
+                Créez votre produit personnalisé{" "}
+                <ArrowRight className="h-4 w-4 ml-1.5" />
               </Link>
             </div>
           </ul>

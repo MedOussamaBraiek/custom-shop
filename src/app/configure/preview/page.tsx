@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { notFound } from "next/navigation";
 import DesignPreview from "./DesignPreview";
+import DesignPreview1 from "./DesignPreview1";
 
 interface PageProps {
   searchParams: {
@@ -25,7 +26,7 @@ const page = async ({ searchParams }: PageProps) => {
     return notFound();
   }
 
-  return <DesignPreview configuration={configuration} />;
+  return <DesignPreview1 configuration={configuration} />;
 };
 
 export default page;

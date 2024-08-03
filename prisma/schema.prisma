@@ -13,13 +13,12 @@ enum OrderStatus {
   awaiting_shipment
 }
 
-enum PhoneModel {
-  iphonex
-  iphone11
-  iphone12
-  iphone13
-  iphone14
-  iphone15
+enum ShirtSize {
+  xs
+  s
+  m
+  l
+  xl
 }
 
 enum CaseMaterial {
@@ -43,7 +42,7 @@ model Configuration {
   width           Int
   height          Int
   imageUrl        String
-  model           PhoneModel?
+  size            ShirtSize?
   material        CaseMaterial?
   finish          CaseFinish?
   color           CaseColor?

@@ -15,7 +15,7 @@ const Navbar = async () => {
       <MaxWidthWrapper>
         <div className="flex h-14 items-center justify-between border-b border-zinc-200">
           <Link href="/" className="flex z-40 font-semibold">
-            JOCKER<span className="text-green-600">SHOP</span>
+            JOCKER-<span className="text-green-600">SHOP</span>
           </Link>
 
           <div className="h-full flex items-center space-x-4">
@@ -28,7 +28,7 @@ const Navbar = async () => {
                     variant: "ghost",
                   })}
                 >
-                  Sign out
+                  Connect
                 </Link>
                 {isAdmin ? (
                   <Link
@@ -48,7 +48,7 @@ const Navbar = async () => {
                     className: "hidden sm:flex items-center gap-1",
                   })}
                 >
-                  Create case
+                  Créer un produit
                   <ArrowRight className="ml-1.5 h-5 w-5" />
                 </Link>
               </>
@@ -61,7 +61,7 @@ const Navbar = async () => {
                     variant: "ghost",
                   })}
                 >
-                  Sign up
+                  Registre
                 </Link>
 
                 <Link
@@ -71,7 +71,7 @@ const Navbar = async () => {
                     variant: "ghost",
                   })}
                 >
-                  Login
+                  Connect
                 </Link>
 
                 <div className="h-8 w-px bg-zinc-200 hidden sm:block" />
@@ -83,7 +83,7 @@ const Navbar = async () => {
                     className: "hidden sm:flex items-center gap-1",
                   })}
                 >
-                  Create case
+                  Créer un produit
                   <ArrowRight className="ml-1.5 h-5 w-5" />
                 </Link>
               </>

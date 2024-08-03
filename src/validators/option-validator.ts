@@ -6,12 +6,12 @@ import { PRODUCT_PRICES } from "@/config/products"
 
 export const COLORS = [
     {
-        label: "Black",
+        label: "Noir",
         value: "black",
         tw: "black"
     },
     {
-        label: "White",
+        label: "Blanc",
         value: "white",
         tw: "white"
     },
@@ -23,32 +23,28 @@ export const COLORS = [
     
 ] as const
 
-export const MODELS = {
-    name: 'models',
+export const SIZES = {
+    name: 'sizes',
     options: [
         {
-            label: "iphone X",
-            value: "iphonex"
+            label: "XS",
+            value: "xs"
         },
         {
-            label: "iphone 11",
-            value: "iphone11"
+            label: "S",
+            value: "s"
         },
         {
-            label: "iphone 12",
-            value: "iphone12"
+            label: "M",
+            value: "m"
         },
         {
-            label: "iphone 13",
-            value: "iphone13"
+            label: "L",
+            value: "l"
         },
         {
-            label: "iphone 14",
-            value: "iphone14"
-        },
-        {
-            label: "iphone 15",
-            value: "iphone15"
+            label: "XL",
+            value: "xl"
         },
     ]
 } as const 
