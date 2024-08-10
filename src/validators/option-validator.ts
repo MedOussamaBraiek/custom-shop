@@ -1,6 +1,7 @@
 // bg-blue-950 border-blue-950
 // bg-black border-black
 // bg-white border-white
+// bg-amber-100 border-amber-100
 
 import { PRODUCT_PRICES } from "@/config/products"
 
@@ -19,6 +20,11 @@ export const COLORS = [
         label: "Blue",
         value: "blue",
         tw: "blue-950"
+    },
+    {
+        label: "Beige",
+        value: "beige",
+        tw: "amber-100"
     },
     
 ] as const
@@ -81,6 +87,24 @@ export const FINISHES = {
             value: "textured",
             description: "Soft grippy texture",
             price: PRODUCT_PRICES.finish.textured
+        },
+    ]
+} as const
+
+export const PRODUCTS = {
+    name: 'prducts',
+    options: [
+        {
+            label: "Shirt",
+            value: "shirt",
+        },
+        {
+            label: "Cup",
+            value: "cup",
+        },
+        {
+            label: "Sac",
+            value: "sac",
         },
     ]
 } as const

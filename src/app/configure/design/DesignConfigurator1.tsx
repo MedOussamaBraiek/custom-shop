@@ -12,6 +12,7 @@ import {
   COLORS,
   FINISHES,
   MATERIALS,
+  PRODUCTS,
   SIZES,
 } from "@/validators/option-validator";
 import { Label } from "@/components/ui/label";
@@ -66,11 +67,13 @@ const DesignConfigurator1 = ({
     size: (typeof SIZES.options)[number];
     material: (typeof MATERIALS.options)[number];
     finish: (typeof FINISHES.options)[number];
+    product: (typeof PRODUCTS.options)[number];
   }>({
-    color: COLORS[0],
+    color: COLORS[1],
     size: SIZES.options[0],
     material: MATERIALS.options[0],
     finish: FINISHES.options[0],
+    product: PRODUCTS.options[0],
   });
 
   const [renderedDimentions, setRenderedDimentions] = useState({
@@ -79,11 +82,11 @@ const DesignConfigurator1 = ({
   });
 
   const [renderedPositions, setRenderedPositions] = useState({
-    x: 48,
-    y: 50,
+    x: -100,
+    y: 0,
   });
 
-  const shirtRef = useRef<HTMLDivElement>(null);
+  const productRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const tshirtRef = useRef<HTMLDivElement>(null);
 
@@ -93,22 +96,63 @@ const DesignConfigurator1 = ({
     width: 400,
     height: 380,
   });
+  const [cupCanvas, setCupCanvas] = useState({
+    width: 400,
+    height: 220,
+  });
+  const [sacCanvas, setSacCanvas] = useState({
+    width: 380,
+    height: 280,
+  });
+
+  const offsets = {
+    shirt: { left: 200, top: 80 },
+    cup: { left: 10, top: 10 },
+    sac: { left: 50, top: 0 },
+  };
+
+  useEffect(() => {
+    const { left: productOffsetLeft, top: productOffsetTop } = offsets[
+      options.product.value
+    ] || { left: 0, top: 0 };
+
+    const { left: shirtLeft, top: shirtTop } =
+      productRef.current?.getBoundingClientRect() || { left: 0, top: 0 };
+    const { left: containerLeft, top: containerTop } =
+      containerRef.current?.getBoundingClientRect() || { left: 0, top: 0 };
+
+    const leftOffset = shirtLeft - productOffsetLeft - containerLeft;
+    const topOffset = shirtTop - productOffsetTop - containerTop;
+
+    const actualX = renderedPositions.x - leftOffset;
+    const actualY = renderedPositions.y - topOffset;
+
+    // Set the initial position and dimensions
+    setRenderedPositions({ x: actualX, y: actualY });
+    setRenderedDimentions({
+      width: imageDimensions.width / 4,
+      height: imageDimensions.height / 4,
+    });
+  }, [options.product, imageDimensions]);
 
   async function saveConfiguration() {
     try {
-      // get cordinate
       const {
         left: shirtLeft,
         top: shirtTop,
         width,
         height,
-      } = shirtRef.current!.getBoundingClientRect();
+      } = productRef.current!.getBoundingClientRect();
 
       const { left: containerLeft, top: containerTop } =
         containerRef.current!.getBoundingClientRect();
 
-      const leftOffset = shirtLeft - 200 - containerLeft;
-      const topOffset = shirtTop - 80 - containerTop;
+      const { left: productOffsetLeft, top: productOffsetTop } = offsets[
+        options.product.value
+      ] || { left: 0, top: 0 };
+
+      const leftOffset = shirtLeft - productOffsetLeft - containerLeft;
+      const topOffset = shirtTop - productOffsetTop - containerTop;
 
       //   const leftOffset = shirtLeft - containerLeft;
       //   const topOffset = shirtTop - containerTop;
@@ -162,6 +206,55 @@ const DesignConfigurator1 = ({
     return new Blob([byteArray], { type: mimeType });
   }
 
+  const filterProduct = (product: String) => {
+    console.log(product);
+    if (options.product.value === "shirt") {
+      if (options.color.value === "white") {
+        return (
+          <img
+            src="/tshirts/white-shirt-front.png"
+            alt="shirt"
+            className="relative object-fit max-w-[400px] min-h-[575px]"
+          />
+        );
+      } else {
+        return (
+          <img
+            src="/tshirts/black-shirt-front.png"
+            alt="shirt"
+            className="relative object-fit max-w-[400px]"
+          />
+        );
+      }
+    } else if (options.product.value === "cup") {
+      if (options.color.value === "white") {
+        return (
+          <img
+            src="/cups/white-cup.png"
+            alt="cup"
+            className="relative object-fit max-w-[400px]"
+          />
+        );
+      } else {
+        return (
+          <img
+            src="/cups/black-cup.png"
+            alt="cup"
+            className="relative object-fit max-w-[400px]"
+          />
+        );
+      }
+    } else {
+      return (
+        <img
+          src="/sac.png"
+          alt="sac"
+          className="relative object-fit max-w-[400px]"
+        />
+      );
+    }
+  };
+
   return (
     <div className="relative mt-20 grid grid-cols-1 lg:grid-cols-3 mb-20 pb-20">
       <div
@@ -169,30 +262,37 @@ const DesignConfigurator1 = ({
         className="relative h-[37.5rem] overflow-hidden col-span-2 w-full max-w-4xl flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-12 text-center focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
       >
         <AspectRatio
-          ref={shirtRef}
+          ref={productRef}
           className="pointer-events-none flex items-center justify-center  relative z-50 w-full"
         >
-          {options.color.value === "white" ? (
-            <img
-              src="/tshirts/white-shirt-front.png"
-              alt="shirt"
-              className="relative object-fit max-w-[400px] min-h-[575px]"
-            />
-          ) : (
-            <img
-              src="/tshirts/black-shirt-front.png"
-              alt="shirt"
-              className="relative object-fit max-w-[400px]"
-            />
-          )}
+          {filterProduct(options.product.value)}
         </AspectRatio>
 
         <div
           ref={tshirtRef}
-          className="absolute  border border-dashed border-gray-500"
+          className={`absolute  border border-dashed border-gray-500
+            ${
+              options.product.value === "cup"
+                ? "mr-24 mt-10"
+                : options.product.value === "sac"
+                ? "mt-20"
+                : ""
+            }`}
           style={{
-            width: shirtCanvas.width - 180,
-            height: shirtCanvas.height + 50,
+            // width: shirtCanvas.width - 180,
+            // height: shirtCanvas.height + 50,
+            width:
+              options.product.value === "shirt"
+                ? shirtCanvas.width - 180
+                : options.product.value === "cup"
+                ? cupCanvas.width - 130
+                : sacCanvas.width - 150,
+            height:
+              options.product.value === "shirt"
+                ? shirtCanvas.height + 50
+                : options.product.value === "cup"
+                ? cupCanvas.height + 40
+                : sacCanvas.height + 10,
           }}
         >
           <Rnd
@@ -252,9 +352,9 @@ const DesignConfigurator1 = ({
 
             <div className="w-full h-px bg-zinc-200 my-6" />
 
-            <Label>Couleur: {options.color.label}</Label>
+            <Label>Product: {options.product.label}</Label>
 
-            <div className="flex span-x-3 mt-3">
+            <div className="flex items-center gap-5 my-3">
               <img
                 src="/tshirts/white-shirt-front.png"
                 alt="shirt"
@@ -262,139 +362,240 @@ const DesignConfigurator1 = ({
                 onClick={() =>
                   setOptions((prev) => ({
                     ...prev,
-                    color: {
-                      label: "Blanc",
-                      value: "white",
-                      tw: "white",
+                    product: {
+                      label: "Shirt",
+                      value: "shirt",
                     },
                   }))
                 }
               />
               <img
-                src="/tshirts/black-shirt-front.png"
+                src="/cups/white-cup.png"
                 alt="shirt"
-                className="size-16 object-contain transition-all hover:scale-110 cursor-pointer"
+                className="size-14 object-contain transition-all hover:scale-110 cursor-pointer"
                 onClick={() =>
                   setOptions((prev) => ({
                     ...prev,
-                    color: {
-                      label: "Noir",
-                      value: "black",
-                      tw: "black",
+                    product: {
+                      label: "Cup",
+                      value: "cup",
+                    },
+                  }))
+                }
+              />
+              <img
+                src="/sac.png"
+                alt="shirt"
+                className="size-14 object-contain transition-all hover:scale-110 cursor-pointer"
+                onClick={() =>
+                  setOptions((prev) => ({
+                    ...prev,
+                    product: {
+                      label: "Sac",
+                      value: "sac",
                     },
                   }))
                 }
               />
             </div>
 
-            <div className="relative mt-4 h-full flex flex-col justify-between">
-              <div className="flex flex-col gap-6">
-                <div className="relative flex flex-col gap-3 w-full mt-2">
-                  <Label>Taille</Label>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        className="w-full justify-between"
-                      >
-                        {options.size.label}
-                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      {SIZES.options.map((size) => (
-                        <DropdownMenuItem
-                          key={size.label}
-                          className={cn(
-                            "flex text-sm gap-1 items-center p-1.5 cursor-default hover:bg-zinc-100",
-                            {
-                              "bg-zinc-100": size.label === options.size.label,
-                            }
-                          )}
-                          onClick={() =>
-                            setOptions((prev) => ({ ...prev, size }))
-                          }
-                        >
-                          <Check
-                            className={cn(
-                              "mr-2 h-4 w-4",
-                              size.label === options.size.label
-                                ? "opacity-100"
-                                : "opacity-0"
-                            )}
-                          />
-                          {size.label}
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
+            <Label>Couleur: {options.color.label}</Label>
 
-                {/* {[MATERIALS, FINISHES].map(
-                  ({ name, options: selectableOptions }) => (
-                    <RadioGroup
-                      key={name}
-                      value={options[name]}
-                      onChange={(val) => {
-                        setOptions((prev) => ({ ...prev, [name]: val }));
-                      }}
-                    >
-                      <Label>
-                        {name.slice(0, 1).toUpperCase() + name.slice(1)}
-                      </Label>
-                      <div className="mt-3 space-y-4">
-                        {selectableOptions.map((option) => (
-                          <RadioGroup.Option
-                            key={option.value}
-                            value={option}
-                            className={({ active, checked }) =>
-                              cn(
-                                "relative blcok cursor-pointer rounded-lg bg-white px-6 py-4 shadow-sm border-2 border-zinc-200 focus:outline-none ring-0 focus:ring-0 outline-none sm:flex sm:justify-between",
-                                {
-                                  "border-primary": active || checked,
-                                }
-                              )
+            {options.product.label === "Shirt" ? (
+              <div className="flex span-x-3 mt-3">
+                <img
+                  src="/tshirts/white-shirt-front.png"
+                  alt="shirt"
+                  className="size-14 object-contain transition-all hover:scale-110 cursor-pointer mr-2"
+                  onClick={() =>
+                    setOptions((prev) => ({
+                      ...prev,
+                      color: {
+                        label: "Blanc",
+                        value: "white",
+                        tw: "white",
+                      },
+                    }))
+                  }
+                />
+                <img
+                  src="/tshirts/black-shirt-front.png"
+                  alt="shirt"
+                  className="size-14 object-contain transition-all hover:scale-110 cursor-pointer"
+                  onClick={() =>
+                    setOptions((prev) => ({
+                      ...prev,
+                      color: {
+                        label: "Noir",
+                        value: "black",
+                        tw: "black",
+                      },
+                    }))
+                  }
+                />
+              </div>
+            ) : options.product.label === "Cup" ? (
+              <div className="flex gap-3 mt-3">
+                <img
+                  src="/cups/white-cup.png"
+                  alt="cup"
+                  className="size-14 object-contain transition-all hover:scale-110 cursor-pointer mr-2"
+                  onClick={() =>
+                    setOptions((prev) => ({
+                      ...prev,
+                      color: {
+                        label: "Blanc",
+                        value: "white",
+                        tw: "white",
+                      },
+                    }))
+                  }
+                />
+                <img
+                  src="/cups/black-cup.png"
+                  alt="cup"
+                  className="size-14 object-contain transition-all hover:scale-110 cursor-pointer"
+                  onClick={() =>
+                    setOptions((prev) => ({
+                      ...prev,
+                      color: {
+                        label: "Noir",
+                        value: "black",
+                        tw: "black",
+                      },
+                    }))
+                  }
+                />
+              </div>
+            ) : (
+              <img
+                src="/sac.png"
+                alt="sac"
+                className="size-14 object-contain transition-all hover:scale-110 cursor-pointer"
+                onClick={() =>
+                  setOptions((prev) => ({
+                    ...prev,
+                    color: {
+                      label: "Beige",
+                      value: "beige",
+                      tw: "amber-100",
+                    },
+                  }))
+                }
+              />
+            )}
+
+            {options.product.value === "shirt" && (
+              <div className="relative  mt-4 h-full flex flex-col justify-between">
+                <div className="flex flex-col gap-6">
+                  <div className="relative flex flex-col gap-3 w-full mt-2">
+                    <Label>Taille</Label>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          className="w-full justify-between"
+                        >
+                          {options.size.label}
+                          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        {SIZES.options.map((size) => (
+                          <DropdownMenuItem
+                            key={size.label}
+                            className={cn(
+                              "flex text-sm gap-1 items-center p-1.5 cursor-default hover:bg-zinc-100",
+                              {
+                                "bg-zinc-100":
+                                  size.label === options.size.label,
+                              }
+                            )}
+                            onClick={() =>
+                              setOptions((prev) => ({ ...prev, size }))
                             }
                           >
-                            <span className="flex items-center">
-                              <span className="flex flex-col text-sm">
-                                <RadioGroup.Label
-                                  className="font-medium text-gray-900"
-                                  as="span"
-                                >
-                                  {option.label}
-                                </RadioGroup.Label>
-
-                                {option.description ? (
-                                  <RadioGroup.Description
-                                    as="span"
-                                    className="text-gray-500"
-                                  >
-                                    <span className="block sm:inline">
-                                      {option.description}
-                                    </span>
-                                  </RadioGroup.Description>
-                                ) : null}
-                              </span>
-                            </span>
-
-                            <RadioGroup.Description
-                              as="span"
-                              className="mt-2 flex text-sm sm:ml-4 sm:mt-0 sm:flex-col sm:text-right"
-                            >
-                              <span className="font-medium text-gray-900">
-                                {formatPrice(option.price / 100)}
-                              </span>
-                            </RadioGroup.Description>
-                          </RadioGroup.Option>
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                size.label === options.size.label
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                            {size.label}
+                          </DropdownMenuItem>
                         ))}
-                      </div>
-                    </RadioGroup>
-                  )
-                )} */}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+
+                  {/* {[MATERIALS, FINISHES].map(
+                 ({ name, options: selectableOptions }) => (
+                   <RadioGroup
+                     key={name}
+                     value={options[name]}
+                     onChange={(val) => {
+                       setOptions((prev) => ({ ...prev, [name]: val }));
+                     }}
+                   >
+                     <Label>
+                       {name.slice(0, 1).toUpperCase() + name.slice(1)}
+                     </Label>
+                     <div className="mt-3 space-y-4">
+                       {selectableOptions.map((option) => (
+                         <RadioGroup.Option
+                           key={option.value}
+                           value={option}
+                           className={({ active, checked }) =>
+                             cn(
+                               "relative blcok cursor-pointer rounded-lg bg-white px-6 py-4 shadow-sm border-2 border-zinc-200 focus:outline-none ring-0 focus:ring-0 outline-none sm:flex sm:justify-between",
+                               {
+                                 "border-primary": active || checked,
+                               }
+                             )
+                           }
+                         >
+                           <span className="flex items-center">
+                             <span className="flex flex-col text-sm">
+                               <RadioGroup.Label
+                                 className="font-medium text-gray-900"
+                                 as="span"
+                               >
+                                 {option.label}
+                               </RadioGroup.Label>
+
+                               {option.description ? (
+                                 <RadioGroup.Description
+                                   as="span"
+                                   className="text-gray-500"
+                                 >
+                                   <span className="block sm:inline">
+                                     {option.description}
+                                   </span>
+                                 </RadioGroup.Description>
+                               ) : null}
+                             </span>
+                           </span>
+
+                           <RadioGroup.Description
+                             as="span"
+                             className="mt-2 flex text-sm sm:ml-4 sm:mt-0 sm:flex-col sm:text-right"
+                           >
+                             <span className="font-medium text-gray-900">
+                               {formatPrice(option.price / 100)}
+                             </span>
+                           </RadioGroup.Description>
+                         </RadioGroup.Option>
+                       ))}
+                     </div>
+                   </RadioGroup>
+                 )
+               )} */}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </ScrollArea>
 
@@ -419,6 +620,7 @@ const DesignConfigurator1 = ({
                     finish: options.finish.value,
                     material: options.material.value,
                     size: options.size.value,
+                    product: options.product.value,
                   })
                 }
                 size="sm"

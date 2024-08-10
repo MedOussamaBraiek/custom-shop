@@ -21,6 +21,12 @@ enum ShirtSize {
   xl
 }
 
+enum Product {
+  shirt
+  cup
+  sac
+}
+
 enum CaseMaterial {
   silicon
   polycarbonate
@@ -35,6 +41,7 @@ enum CaseColor {
   black
   white
   blue
+  beige
 }
 
 model Configuration {
@@ -42,6 +49,7 @@ model Configuration {
   width           Int
   height          Int
   imageUrl        String
+  product         Product?
   size            ShirtSize?
   material        CaseMaterial?
   finish          CaseFinish?
