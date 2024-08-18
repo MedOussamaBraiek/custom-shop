@@ -8,12 +8,7 @@ import NextImage from "next/image";
 import { Rnd } from "react-rnd";
 import { RadioGroup } from "@headlessui/react";
 import { useRef, useState } from "react";
-import {
-  COLORS,
-  FINISHES,
-  MATERIALS,
-  MODELS,
-} from "@/validators/option-validator";
+import { COLORS, FINISHES, MATERIALS } from "@/validators/option-validator";
 import { Label } from "@/components/ui/label";
 import {
   DropdownMenu,
@@ -63,12 +58,12 @@ const DesignConfigurator = ({
 
   const [options, setOptions] = useState<{
     color: (typeof COLORS)[number];
-    model: (typeof MODELS.options)[number];
+    // model: (typeof MODELS.options)[number];
     material: (typeof MATERIALS.options)[number];
     finish: (typeof FINISHES.options)[number];
   }>({
     color: COLORS[0],
-    model: MODELS.options[0],
+    // model: MODELS.options[0],
     material: MATERIALS.options[0],
     finish: FINISHES.options[0],
   });
@@ -280,11 +275,10 @@ const DesignConfigurator = ({
                         role="combobox"
                         className="w-full justify-between"
                       >
-                        {options.model.label}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent>
+                    {/* <DropdownMenuContent>
                       {MODELS.options.map((model) => (
                         <DropdownMenuItem
                           key={model.label}
@@ -310,7 +304,7 @@ const DesignConfigurator = ({
                           {model.label}
                         </DropdownMenuItem>
                       ))}
-                    </DropdownMenuContent>
+                    </DropdownMenuContent> */}
                   </DropdownMenu>
                 </div>
 
@@ -391,7 +385,7 @@ const DesignConfigurator = ({
                     100
                 )}
               </p>
-              <Button
+              {/* <Button
                 isLoading={isPending}
                 disabled={isPending}
                 loadingText="Saving"
@@ -409,7 +403,7 @@ const DesignConfigurator = ({
               >
                 Continue
                 <ArrowRight className="h-4 w-4" />
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>

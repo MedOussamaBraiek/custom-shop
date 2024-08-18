@@ -16,6 +16,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import LoginModal from "@/components/LoginModal";
 import Tshirt from "@/components/Tshirt";
+import Cup from "@/components/Cup";
+import Sac from "@/components/Sac";
 
 const DesignPreview1 = ({
   configuration,
@@ -32,7 +34,7 @@ const DesignPreview1 = ({
 
   useEffect(() => setShowConfetti(true), []);
 
-  const { color, size, finish, material } = configuration;
+  const { color, size, finish, material, product } = configuration;
   const tw = COLORS.find(
     (supportedColor) => supportedColor.value === color
   )?.tw;
@@ -90,11 +92,31 @@ const DesignPreview1 = ({
       <div className="mt-20 flex flex-col items-center md:grid text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-6 md:gap-x-8 lg:gap-x-12">
         <div className="md:col-span-5  md:row-span-2 lg:row-end-2">
           {/* md:col-span-5 md:row-span-2 lg:row-end-2 */}
-          <Tshirt
-            dark={tw === "white" ? false : true}
-            imgSrc={configuration.croppedImageUrl!}
-            className={cn(`bg-${tw}, "max-w-[150px] sm:min-w-fit md:mx-w-full`)}
-          />
+          {product === "shirt" ? (
+            <Tshirt
+              dark={tw === "white" ? false : true}
+              imgSrc={configuration.croppedImageUrl!}
+              className={cn(
+                `bg-${tw}, "max-w-[150px] sm:min-w-fit md:mx-w-full`
+              )}
+            />
+          ) : product === "cup" ? (
+            <Cup
+              dark={tw === "white" ? false : true}
+              imgSrc={configuration.croppedImageUrl!}
+              className={cn(
+                `bg-${tw}, "max-w-[150px] sm:min-w-fit md:mx-w-full`
+              )}
+            />
+          ) : (
+            <Sac
+              dark={tw === "white" ? false : true}
+              imgSrc={configuration.croppedImageUrl!}
+              className={cn(
+                `bg-${tw}, "max-w-[150px] sm:min-w-fit md:mx-w-full`
+              )}
+            />
+          )}
         </div>
 
         <div className="mt-6 sm:col-span-9 md:row-end-1">

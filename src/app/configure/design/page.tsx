@@ -1,6 +1,5 @@
 import { db } from "@/db";
 import { notFound } from "next/navigation";
-import DesignConfigurator from "./DesignConfigurator";
 import DesignConfigurator1 from "./DesignConfigurator1";
 
 interface PageProps {

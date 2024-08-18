@@ -82,7 +82,7 @@ const DesignConfigurator1 = ({
   });
 
   const [renderedPositions, setRenderedPositions] = useState({
-    x: -100,
+    x: 350,
     y: 0,
   });
 
@@ -94,7 +94,7 @@ const DesignConfigurator1 = ({
 
   const [shirtCanvas, setShirtCanvas] = useState({
     width: 400,
-    height: 380,
+    height: 350,
   });
   const [cupCanvas, setCupCanvas] = useState({
     width: 400,
@@ -106,9 +106,9 @@ const DesignConfigurator1 = ({
   });
 
   const offsets = {
-    shirt: { left: 200, top: 80 },
-    cup: { left: 10, top: 10 },
-    sac: { left: 50, top: 0 },
+    shirt: { left: 280, top: 60 },
+    cup: { left: 150, top: 200 },
+    sac: { left: 250, top: 150 },
   };
 
   useEffect(() => {
@@ -121,7 +121,7 @@ const DesignConfigurator1 = ({
     const { left: containerLeft, top: containerTop } =
       containerRef.current?.getBoundingClientRect() || { left: 0, top: 0 };
 
-    const leftOffset = shirtLeft - productOffsetLeft - containerLeft;
+    const leftOffset = shirtLeft + productOffsetLeft - containerLeft;
     const topOffset = shirtTop - productOffsetTop - containerTop;
 
     const actualX = renderedPositions.x - leftOffset;
@@ -212,17 +212,13 @@ const DesignConfigurator1 = ({
       if (options.color.value === "white") {
         return (
           <img
-            src="/tshirts/white-shirt-front.png"
+            src={
+              options.color.value === "white"
+                ? "/tshirts/white-shirt-front.png"
+                : "/tshirts/black-shirt-front.png"
+            }
             alt="shirt"
             className="relative object-fit max-w-[400px] min-h-[575px]"
-          />
-        );
-      } else {
-        return (
-          <img
-            src="/tshirts/black-shirt-front.png"
-            alt="shirt"
-            className="relative object-fit max-w-[400px]"
           />
         );
       }
@@ -230,15 +226,11 @@ const DesignConfigurator1 = ({
       if (options.color.value === "white") {
         return (
           <img
-            src="/cups/white-cup.png"
-            alt="cup"
-            className="relative object-fit max-w-[400px]"
-          />
-        );
-      } else {
-        return (
-          <img
-            src="/cups/black-cup.png"
+            src={
+              options.color.value === "white"
+                ? "/cups/white-cup.png"
+                : "/cups/black-cup.png"
+            }
             alt="cup"
             className="relative object-fit max-w-[400px]"
           />
@@ -300,7 +292,7 @@ const DesignConfigurator1 = ({
             size={renderedDimentions}
             position={renderedPositions}
             default={{
-              x: 0,
+              x: 350,
               y: 0,
               width: imageDimensions.width / 4,
               height: imageDimensions.height / 4,
