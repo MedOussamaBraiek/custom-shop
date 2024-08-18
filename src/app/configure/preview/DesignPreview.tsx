@@ -4,7 +4,7 @@ import Phone from "@/components/Phone";
 import { Button } from "@/components/ui/button";
 import { BASE_PRICE, PRODUCT_PRICES } from "@/config/products";
 import { cn, formatPrice } from "@/lib/utils";
-import { COLORS, FINISHES, MODELS } from "@/validators/option-validator";
+import { COLORS, FINISHES } from "@/validators/option-validator";
 import { Configuration } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import { ArrowRight, Check } from "lucide-react";
@@ -27,14 +27,14 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 
   useEffect(() => setShowConfetti(true), []);
 
-  const { color, model, finish, material } = configuration;
+  const { color, finish, material } = configuration;
   const tw = COLORS.find(
     (supportedColor) => supportedColor.value === color
   )?.tw;
 
-  const { label: modelLabel } = MODELS.options.find(
-    ({ value }) => value === model
-  )!;
+  // const { label: modelLabel } = MODELS.options.find(
+  //   ({ value }) => value === model
+  // )!;
 
   let totalPrice = BASE_PRICE;
   if (material === "polycarbonate")
@@ -92,7 +92,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 
         <div className="mt-6 sm:col-span-9 md:row-end-1">
           <h3 className="text-xl font-bold tracking-tight text-gray-900">
-            Your {modelLabel} Case
+            Your Case
           </h3>
 
           <div className="mt-3 flex items-center gap-1.5 text-base">
