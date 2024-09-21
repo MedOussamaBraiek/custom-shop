@@ -21,41 +21,27 @@ enum ShirtSize {
   xl
 }
 
-enum Product {
+enum ProductType {
   shirt
   cup
   sac
 }
 
-enum CaseMaterial {
-  silicon
-  polycarbonate
-}
-
-enum CaseFinish {
-  smooth
-  textured
-}
-
-enum CaseColor {
+enum ProductColor {
   black
   white
-  blue
   beige
 }
 
 model Configuration {
-  id              String        @id @default(cuid())
-  width           Int
-  height          Int
-  imageUrl        String
-  product         Product?
-  size            ShirtSize?
-  material        CaseMaterial?
-  finish          CaseFinish?
-  color           CaseColor?
-  croppedImageUrl String?
-  Order           Order[]
+  id            String        @id @default(cuid())
+  productType   ProductType?
+  uploadedImage String
+  resultImage   String
+  size          ShirtSize?
+  color         ProductColor?
+  amount        String
+  Order         Order[]
 }
 
 model User {

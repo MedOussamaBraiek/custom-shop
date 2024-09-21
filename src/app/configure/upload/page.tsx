@@ -9,8 +9,13 @@ import { Image, Loader2, MousePointerSquareDashed } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import DropZone, { FileRejection } from "react-dropzone";
+import TShirtDesigner from "./TShirtDesigner";
 
 const Page = () => {
+  return <UploadImage />;
+};
+
+export const UploadImage = () => {
   const { toast } = useToast();
   const [isDragOver, setIsDragOver] = useState<Boolean>(false);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
@@ -20,9 +25,8 @@ const Page = () => {
 
   const { startUpload, isUploading } = useUploadThing("imageUploader", {
     onClientUploadComplete: ([data]) => {
-      const configId = data.serverData.configId;
       startTransition(() => {
-        router.push(`/configure/design?id=${configId}`);
+        router.push(`/configure/design`);
       });
     },
     onUploadProgress(p) {
@@ -44,7 +48,6 @@ const Page = () => {
     startUpload(acceptedFiles, { configId: undefined });
     setIsDragOver(false);
   };
-
   return (
     <div
       className={cn(
@@ -54,6 +57,8 @@ const Page = () => {
         }
       )}
     >
+      {/* <TShirtDesigner /> */}
+
       <div className="container relative flex flex-1 flex-col items-ceter justify-center w-full">
         <DropZone
           onDropAccepted={onDropAccepted}
