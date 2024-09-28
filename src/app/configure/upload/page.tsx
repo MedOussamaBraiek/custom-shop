@@ -9,20 +9,14 @@ import { Image, Loader2, MousePointerSquareDashed } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import DropZone, { FileRejection } from "react-dropzone";
-import TShirtDesigner from "./TShirtDesigner";
+// import TShirtDesigner from "./TShirtDesigner";
 
-const Page = () => {
-  return <UploadImage />;
-};
-
-export const UploadImage = () => {
+const UploadImage = () => {
   const { toast } = useToast();
   const [isDragOver, setIsDragOver] = useState<Boolean>(false);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const router = useRouter();
-
   const [isPending, startTransition] = useTransition();
-
   const { startUpload, isUploading } = useUploadThing("imageUploader", {
     onClientUploadComplete: ([data]) => {
       startTransition(() => {
@@ -37,17 +31,18 @@ export const UploadImage = () => {
   const onDropRejected = (rejectedFiles: FileRejection[]) => {
     const [file] = rejectedFiles;
     setIsDragOver(false);
-
     toast({
       title: `${file.file.type} type is not supported`,
-      description: "Please choose a PNG, JPG or JPEG image instead",
+      description: "Please choose a PNG, JPG, or JPEG image instead",
       variant: "destructive",
     });
   };
+
   const onDropAccepted = (acceptedFiles: File[]) => {
     startUpload(acceptedFiles, { configId: undefined });
     setIsDragOver(false);
   };
+
   return (
     <div
       className={cn(
@@ -58,8 +53,7 @@ export const UploadImage = () => {
       )}
     >
       {/* <TShirtDesigner /> */}
-
-      <div className="container relative flex flex-1 flex-col items-ceter justify-center w-full">
+      <div className="container relative flex flex-1 flex-col items-center justify-center w-full">
         <DropZone
           onDropAccepted={onDropAccepted}
           onDropRejected={onDropRejected}
@@ -84,14 +78,13 @@ export const UploadImage = () => {
               ) : (
                 <Image className="h-6 w-6 text-zinc-500 mb-2" />
               )}
-
               <div className="flex flex-col justify-center mb-2 text-sm text-zinc-700">
                 {isUploading ? (
                   <div className="flex flex-col items-center">
                     <p>Uploading...</p>
                     <Progress
                       value={uploadProgress}
-                      className="mt-2 w-40 h-2 bbg-gray-300"
+                      className="mt-2 w-40 h-2 bg-gray-300"
                     />
                   </div>
                 ) : isPending ? (
@@ -121,4 +114,4 @@ export const UploadImage = () => {
   );
 };
 
-export default Page;
+export default UploadImage;
