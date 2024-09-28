@@ -29,6 +29,7 @@ export const ourFileRouter = {
           data: {
             uploadedImage: file.url,
             resultImage: file.url,
+            amount: 0
             // height: height || 500,
             // width: width || 500
           } 
