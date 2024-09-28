@@ -470,9 +470,9 @@ const DesignConfigurator1 = ({
                   setOptions((prev) => ({
                     ...prev,
                     color: {
-                      label: "Beige",
-                      value: "beige",
-                      tw: "amber-100",
+                      label: "Noir",
+                      value: "black",
+                      tw: "black",
                     },
                   }))
                 }
@@ -613,7 +613,7 @@ const DesignConfigurator1 = ({
                     color: options.color.value,
                     finish: options.finish.value,
                     material: options.material.value,
-                    size: options.size.value,
+                    size: options.size.label,
                     product: options.product.value,
                   })
                 }
