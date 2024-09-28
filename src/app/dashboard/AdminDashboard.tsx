@@ -21,9 +21,57 @@ import { formatPrice } from "@/lib/utils";
 import StatusDropdown from "./StatusDropdown";
 import { useState } from "react";
 import Image from "next/image";
+import {
+  OrderStatus,
+  ProductColor,
+  ProductType,
+  ShirtSize,
+} from "@prisma/client";
 
-// Client Component because we're using useState and Image modal
-const DashboardPage = ({ orders, lastWeekSum, lastMonthSum }) => {
+interface User {
+  id: string;
+  email: string;
+}
+
+interface Configuration {
+  id: string;
+  productType?: ProductType | null;
+  uploadedImage: string;
+  resultImage: string;
+  size?: ShirtSize | null;
+  color?: ProductColor | null;
+  amount: number;
+}
+
+interface Order {
+  id: string;
+  createdAt: Date;
+  isPaid: boolean;
+  amount: number;
+  shippingAddress?: string | null;
+  status: OrderStatus;
+  user: User;
+  configuration: Configuration;
+  configurationId: string;
+}
+
+interface AggregateSum {
+  _sum: {
+    amount: number | null;
+  };
+}
+
+interface DashboardPageProps {
+  orders: Order[];
+  lastWeekSum: AggregateSum;
+  lastMonthSum: AggregateSum;
+}
+
+const DashboardPage = ({
+  orders,
+  lastWeekSum,
+  lastMonthSum,
+}: DashboardPageProps) => {
   const WEEKLY_GOAL = 500;
   const MONTHLY_GOAL = 2000;
 
@@ -94,7 +142,11 @@ const DashboardPage = ({ orders, lastWeekSum, lastMonthSum }) => {
               {orders.map((order) => (
                 <TableRow key={order.id} className="bg-accent">
                   <TableCell>
-                    <div className="font-medium">{order.shippingAddress}</div>
+                    <div className="font-medium">
+                      {order.shippingAddress
+                        ? order.shippingAddress
+                        : "No address provided"}
+                    </div>
                     <div className=" text-sm text-muted-foreground md:inline">
                       {order.user.email}
                     </div>

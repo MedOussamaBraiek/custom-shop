@@ -8,6 +8,15 @@ import PhonePreview from "@/components/PhonePreview";
 import { formatPrice } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
+interface Order {
+  configuration?: {
+    resultImage?: string;
+  };
+  shippingAddress?: string;
+  isPaid?: boolean;
+  amount?: number;
+}
+
 const ThankYou = () => {
   const searchParams = useSearchParams();
 
@@ -50,13 +59,13 @@ const ThankYou = () => {
   const orderId = searchParams.get("orderId") || "";
 
   console.log(orderId);
-  const [order, setOrder] = useState({});
+  const [order, setOrder] = useState<Order>({});
 
   const getOrder = async () => {
     if (orderId) {
       const response = await getPaymentStatus(orderId);
       console.log(response);
-      setOrder(response);
+      setOrder(response as Order);
     }
   };
 
@@ -111,7 +120,10 @@ const ThankYou = () => {
               <p className="font-medium text-gray-900">Adresse de Livraison</p>
               <div className="mt-2 text-zinc-700">
                 <address className="not-italic">
-                  <span className="block">{order.shippingAddress}</span>
+                  <span className="block">
+                    {" "}
+                    {order.shippingAddress ?? "No shipping address available"}
+                  </span>
                   {/* <span className="block">{shippingAddress?.street}</span> */}
                   {/* <span className="block">
                     {shippingAddress?.postalCode} {shippingAddress?.city}
@@ -154,7 +166,7 @@ const ThankYou = () => {
         <div className="space-y-6 border-t border-zinc-200 pt-10 text-sm">
           <div className="flex justify-between">
             <p className="font-medium text-zinc-900">Subtotal</p>
-            <p className=" text-zinc-700">{formatPrice(order.amount)}</p>
+            <p className=" text-zinc-700">{formatPrice(order.amount || 0)}</p>
           </div>
           <div className="flex justify-between">
             <p className="font-medium text-zinc-900">Expédition</p>
@@ -162,7 +174,9 @@ const ThankYou = () => {
           </div>
           <div className="flex justify-between">
             <p className="font-medium text-zinc-900">Total</p>
-            <p className=" text-zinc-700">{formatPrice(order.amount + 7)}</p>
+            <p className=" text-zinc-700">
+              {formatPrice(order.amount || 0 + 7)}
+            </p>
           </div>
         </div>
       </div>

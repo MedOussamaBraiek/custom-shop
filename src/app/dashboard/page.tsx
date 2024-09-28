@@ -63,9 +63,6 @@ const page = async () => {
     },
   });
 
-  const WEEKLY_GOAL = 500;
-  const MONTHLY_GOAL = 2000;
-
   return (
     <DashboardPage
       orders={orders}
