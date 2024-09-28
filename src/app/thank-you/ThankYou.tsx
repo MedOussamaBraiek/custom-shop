@@ -124,10 +124,6 @@ const ThankYou = () => {
                     {" "}
                     {order.shippingAddress ?? "No shipping address available"}
                   </span>
-                  {/* <span className="block">{shippingAddress?.street}</span> */}
-                  {/* <span className="block">
-                    {shippingAddress?.postalCode} {shippingAddress?.city}
-                  </span> */}
                 </address>
               </div>
             </div>

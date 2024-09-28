@@ -75,7 +75,6 @@ export const createCheckoutSession = async ({
 
   return { success: true, orderId: order.id  };
   } catch (error)  {
-    console.log(formData.size)
     console.error("Error in createCheckoutSession:", error);
     return { success: false };
   }
