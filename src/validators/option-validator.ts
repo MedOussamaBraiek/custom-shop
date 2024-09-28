@@ -16,10 +16,11 @@ export const COLORS = [
         value: "white",
         tw: "white"
     },
+
     {
-        label: "Blue",
-        value: "blue",
-        tw: "blue-950"
+        label: "Beige",
+        value: "beige",
+        tw: "amber-100"
     },
     
 ] as const
