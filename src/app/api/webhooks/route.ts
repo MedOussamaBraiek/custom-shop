@@ -46,26 +46,8 @@ export async function POST(req: Request){
             const updatedOrder = await db.order.update({
                 where: {id: orderId},
                 data: {isPaid: true, 
-                    shippingAddress: {
-                    create: {
-                        name: session.customer_details!.name!,
-                        city: shippingAddress!.city!,
-                        country: shippingAddress!.country!,
-                        postalCode: shippingAddress!.postal_code!,
-                        street: shippingAddress!.line1!,
-                        state: shippingAddress!.state
-                    }
-                },
-                billingAddress: {
-                    create: {
-                        name: session.customer_details!.name!,
-                        city: billingAddress!.city!,
-                        country: billingAddress!.country!,
-                        postalCode: billingAddress!.postal_code!,
-                        street: billingAddress!.line1!,
-                        state: billingAddress!.state
-                    }
-                }
+                    shippingAddress: `${session.customer_details!.name!}, ${shippingAddress!.line1!}, ${shippingAddress!.city!}, ${shippingAddress!.state}, ${shippingAddress!.postal_code!}, ${shippingAddress!.country!}`,
+               
             }
             })
 
