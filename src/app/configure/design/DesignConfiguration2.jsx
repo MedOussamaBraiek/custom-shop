@@ -33,35 +33,29 @@ import { useRouter } from "next/navigation";
 
 import * as fabric from "fabric";
 
-interface DesignConfiguratorProps {
-  configId: string;
-  imageUrl: string;
-  imageDimensions: { width: number; height: number };
-}
-interface FabricCanvas extends HTMLCanvasElement {
-  __fabric_initialized?: boolean;
-}
+// interface DesignConfiguratorProps {
+//   configId: string;
+//   imageUrl: string;
+//   imageDimensions: { width: number; height: number };
+// }
+// interface FabricCanvas extends HTMLCanvasElement {
+//   __fabric_initialized?: boolean;
+// }
 
-type ProductType = "shirt" | "cup" | "sac";
+// type ProductType = "shirt" | "cup" | "sac";
 
-interface DesignArea {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
+// interface DesignArea {
+//   x: number;
+//   y: number;
+//   width: number;
+//   height: number;
+// }
 
 const DesignConfigurator2 = () => {
   const { toast } = useToast();
   const router = useRouter();
 
-  const [options, setOptions] = useState<{
-    color: (typeof COLORS)[number];
-    size: (typeof SIZES.options)[number];
-    material: (typeof MATERIALS.options)[number];
-    finish: (typeof FINISHES.options)[number];
-    product: (typeof PRODUCTS.options)[number];
-  }>({
+  const [options, setOptions] = useState({
     color: COLORS[1],
     size: SIZES.options[0],
     material: MATERIALS.options[0],
@@ -69,11 +63,11 @@ const DesignConfigurator2 = () => {
     product: PRODUCTS.options[0],
   });
 
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  // const [selectedImage, setSelectedImage] = (useState < File) | (null > null);
 
-  const productRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const tshirtRef = useRef<HTMLDivElement>(null);
+  // const productRef = useRef < HTMLDivElement > null;
+  // const containerRef = useRef < HTMLDivElement > null;
+  // const tshirtRef = useRef < HTMLDivElement > null;
 
   const { startUpload } = useUploadThing("imageUploader");
 
@@ -96,7 +90,7 @@ const DesignConfigurator2 = () => {
     sac: { left: 250, top: 150 },
   };
 
-  function base64ToBlob(base64: string, mimeType: string) {
+  function base64ToBlob(base64, mimeType) {
     const byteCharacters = atob(base64);
     const byteNumbers = new Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {
@@ -123,11 +117,11 @@ const DesignConfigurator2 = () => {
     }
   };
 
-  const canvasRef = useRef<FabricCanvas>(null);
-  const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
+  const canvasRef = useRef(null);
+  const [canvas, setCanvas] = useState(null);
   const [tshirtSize, setTshirtSize] = useState({ width: 400, height: 600 });
 
-  const defaultSizes: Record<ProductType, { width: number; height: number }> = {
+  const defaultSizes = {
     shirt: { width: 400, height: 600 },
     cup: { width: 450, height: 450 },
     sac: { width: 320, height: 500 },
@@ -136,18 +130,16 @@ const DesignConfigurator2 = () => {
   const [backgroundImage, setBackgroundImage] = useState(
     "/tshirts/white-shirt-front.png"
   );
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [uploadedImage, setUploadedImage] = useState(null);
 
-  const designAreas: Record<ProductType, DesignArea> = {
+  const designAreas = {
     shirt: { x: 100, y: 120, width: 200, height: 380 },
     cup: { x: -60, y: 10, width: 450, height: 310 },
     sac: { x: -5, y: 50, width: 270, height: 450 },
   };
 
-  const [productType, setProductType] = useState<ProductType>("shirt");
-  const [designArea, setDesignArea] = useState<DesignArea>(
-    designAreas[productType]
-  );
+  const [productType, setProductType] = useState("shirt");
+  const [designArea, setDesignArea] = useState(designAreas[productType]);
 
   useEffect(() => {
     // Set product designArea and size based on productType
@@ -155,7 +147,7 @@ const DesignConfigurator2 = () => {
     setDesignArea(designAreas[productType]);
   }, [productType]);
 
-  const handleProductChange = (newProductType: ProductType) => {
+  const handleProductChange = (newProductType) => {
     setProductType(newProductType);
   };
 
@@ -167,20 +159,23 @@ const DesignConfigurator2 = () => {
     }
   }, [productType, options]);
 
-  const loadBackgroundImage = (urlImg: string, productType: ProductType) => {
+  const loadBackgroundImage = (urlImg, productType) => {
     if (!canvas) return;
 
     fabric.Image.fromURL(
       urlImg,
-      (image: fabric.Image) => {
+      (imgElement) => {
+        const image = new fabric.Image(imgElement);
         if (image) {
           const { x, y, width, height } = designAreas[productType];
-          canvas.setBackgroundImage(image, canvas.renderAll.bind(canvas), {
+          canvas.backgroundImage = image;
+          image.set({
             left: x,
             top: y,
             scaleX: width / image.width,
             scaleY: height / image.height,
           });
+          canvas.renderAll();
         } else {
           console.error("Failed to load product image.");
         }
@@ -213,7 +208,7 @@ const DesignConfigurator2 = () => {
     };
   }, [canvasRef.current]);
 
-  const handleAddImage = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleAddImage = (e) => {
     if (!canvas || !e.target.files?.length) return;
 
     const imgObj = e.target.files[0];
@@ -416,8 +411,9 @@ const DesignConfigurator2 = () => {
         </div>
 
         {options.product.value == "shirt" && (
-          <div className="absolute top-3 flex w-full justify-center gap-6">
+          <div className="absolute top-2 flex w-full justify-center gap-6">
             <button
+              style={{ backgroundColor: "#16A34A" }}
               className="bg-[#16A34A] text-white rounded-md px-2 py-0.5"
               onClick={() => {
                 setBackgroundImage(
@@ -428,6 +424,7 @@ const DesignConfigurator2 = () => {
               Face avant
             </button>
             <button
+              style={{ backgroundColor: "#16A34A" }}
               className="bg-[#16A34A] text-white rounded-md px-2 py-0.5"
               onClick={() => {
                 setBackgroundImage(
