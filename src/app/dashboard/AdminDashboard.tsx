@@ -40,7 +40,7 @@ interface Configuration {
   resultImage: string;
   size?: ShirtSize | null;
   color?: ProductColor | null;
-  amount: number;
+  amount?: number | null;
 }
 
 interface Order {
