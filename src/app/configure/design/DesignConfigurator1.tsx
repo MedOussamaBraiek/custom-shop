@@ -30,7 +30,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { saveConfig as _saveConfig, SaveConfigArgs } from "./actions";
 import { useRouter } from "next/navigation";
-import TShirtDesigner from "../upload/TShirtDesigner";
 
 interface DesignConfiguratorProps {
   configId: string;
