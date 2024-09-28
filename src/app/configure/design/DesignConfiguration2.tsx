@@ -331,14 +331,14 @@ const DesignConfigurator2 = () => {
             color: selectedColor,
             size: selectedSize,
             uploadedImage: uploadedImage,
-            finalDesign: finalDataUrl,
+            resultImage: finalDataUrl,
             amount:
               productType === "shirt"
-                ? formatPrice(30_00 / 100)
+                ? 30_00
                 : productType === "cup"
-                ? formatPrice(15_00 / 100)
+                ? 15_00
                 : productType === "sac"
-                ? formatPrice(20_00 / 100)
+                ? 20_00
                 : formatPrice(0),
           };
           console.log("Design Config:", designConfig);

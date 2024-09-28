@@ -7,12 +7,12 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
 const Page = () => {
-  const [configId, setConfigId] = useState<string | null>(null);
+  const [configuration, setConfiguration] = useState<{} | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    const configurationId = localStorage.getItem("configurationId");
-    if (configurationId) setConfigId(configurationId);
+    const configuration = localStorage.getItem("configuration");
+    if (configuration) setConfiguration(configuration);
   }, []);
 
   const { data } = useQuery({
@@ -23,9 +23,9 @@ const Page = () => {
   });
 
   if (data?.success) {
-    if (configId) {
+    if (configuration) {
       localStorage.removeItem("configurationId");
-      router.push(`/configure/preview?id=${configId}`);
+      router.push(`/configure/preview`);
     } else {
       router.push("/");
     }

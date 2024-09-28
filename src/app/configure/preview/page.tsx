@@ -2,14 +2,15 @@
 
 import { useEffect, useState } from "react";
 import DesignPreview1 from "./DesignPreview1";
+import { ProductType, ShirtSize } from "@prisma/client";
 
 interface DesignConfig {
-  productType: string;
+  productType: ProductType;
   color: string;
-  size: string;
+  size: ShirtSize;
   uploadedImage: string;
-  finalDesign: string;
-  amount: string;
+  resultImage: string;
+  amount: number;
 }
 
 const Page = () => {
@@ -21,7 +22,7 @@ const Page = () => {
 
     if (designConfigString) {
       const designConfig = JSON.parse(designConfigString);
-      const { productType, color, size, uploadedImage, finalDesign, amount } =
+      const { productType, color, size, uploadedImage, resultImage, amount } =
         designConfig;
 
       if (
@@ -29,7 +30,7 @@ const Page = () => {
         color &&
         size &&
         uploadedImage &&
-        finalDesign &&
+        resultImage &&
         amount
       ) {
         setConfiguration({
@@ -37,7 +38,7 @@ const Page = () => {
           color,
           size,
           uploadedImage,
-          finalDesign,
+          resultImage,
           amount,
         });
       }

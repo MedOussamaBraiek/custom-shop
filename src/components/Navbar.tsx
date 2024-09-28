@@ -21,7 +21,7 @@ const Navbar = async () => {
           <div className="h-full flex items-center space-x-4">
             {user ? (
               <>
-                <Link
+                {/* <Link
                   href="/api/auth/logout"
                   className={buttonVariants({
                     size: "sm",
@@ -29,7 +29,7 @@ const Navbar = async () => {
                   })}
                 >
                   Connect
-                </Link>
+                </Link> */}
                 {isAdmin ? (
                   <Link
                     href="/dashboard"
@@ -42,7 +42,7 @@ const Navbar = async () => {
                   </Link>
                 ) : null}
                 <Link
-                  href="/configure/upload"
+                  href="/configure/design"
                   className={buttonVariants({
                     size: "sm",
                     className: "hidden sm:flex items-center gap-1",
@@ -77,7 +77,7 @@ const Navbar = async () => {
                 <div className="h-8 w-px bg-zinc-200 hidden sm:block" />
 
                 <Link
-                  href="/configure/upload"
+                  href="/configure/design"
                   className={buttonVariants({
                     size: "sm",
                     className: "hidden sm:flex items-center gap-1",
