@@ -1,4 +1,3 @@
-import { ShippingAddress } from "@prisma/client";
 import {
   Body,
   Column,
@@ -19,7 +18,7 @@ const OrderReceivedEmail = ({
   orderId,
   orderDate,
 }: {
-  shippingAddress: ShippingAddress;
+  shippingAddress: string;
   orderId: string;
   orderDate: string;
 }) => {
@@ -54,13 +53,7 @@ const OrderReceivedEmail = ({
           </Section>
           <Hr style={global.hr} />
           <Section style={global.defaultPadding}>
-            <Text style={adressTitle}>
-              Shipping to : {shippingAddress.name}
-            </Text>
-            <Text style={{ ...global.text, fontSize: 14 }}>
-              {shippingAddress.street}, {shippingAddress.city},{" "}
-              {shippingAddress.state}, {shippingAddress.postalCode}
-            </Text>
+            <Text style={adressTitle}>Shipping to : {shippingAddress}</Text>
           </Section>
           <Hr style={global.hr} />
           <Section style={global.defaultPadding}>
