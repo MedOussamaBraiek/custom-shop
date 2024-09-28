@@ -28,7 +28,6 @@ export const ourFileRouter = {
         const configuration = await db.configuration.create({
           data: {
             uploadedImage: file.url,
-            resultImage: file.url,
             // height: height || 500,
             // width: width || 500
           } 
@@ -41,7 +40,7 @@ export const ourFileRouter = {
            id: configId 
           },
           data: {
-            croppedImageUrl: file.url
+            resultImage: file.url
           }
         })
 
