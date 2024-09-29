@@ -208,6 +208,34 @@ const DesignConfigurator2 = () => {
     };
   }, [canvasRef.current]);
 
+  const currentImageRef = useRef(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const predefinedImages = [
+    "/galery/monastir.png",
+    "/galery/tunisia.png",
+    "/galery/tunisian.png",
+    "/galery/one-piece-wanted.jpg",
+    "/galery/marvel.png",
+    "/galery/shield.png",
+    "/galery/shield2.png",
+    "/galery/love.png",
+    "/galery/golden.png",
+    "/galery/girl.png",
+    "/galery/girl2.png",
+    "/galery/flash.png",
+    "/galery/boss1.png",
+    "/galery/boss2.png",
+    "/galery/boss3.png",
+    "/galery/battman.png",
+    "/galery/avengers.png",
+    "/galery/boom.png",
+    "/galery/controle.png",
+    "/galery/deadpool.png",
+    "/galery/deadpool2.png",
+    "/galery/deadpool3.png",
+    "/galery/hulk.png",
+  ];
+
   const handleAddImage = (e) => {
     if (!canvas || !e.target.files?.length) return;
 
@@ -238,7 +266,12 @@ const DesignConfigurator2 = () => {
             top: (designArea.height - image.getScaledHeight()) / 2,
           });
 
+          if (currentImageRef.current) {
+            canvas.remove(currentImageRef.current);
+          }
+
           canvas.add(image);
+          currentImageRef.current = image;
           canvas.renderAll();
         };
       } else {
@@ -247,6 +280,34 @@ const DesignConfigurator2 = () => {
     };
 
     reader.readAsDataURL(imgObj);
+  };
+
+  const handlePredefinedImageClick = (imageSrc) => {
+    const imgElement = document.createElement("img");
+    imgElement.src = imageSrc;
+
+    imgElement.onload = () => {
+      const image = new fabric.Image(imgElement);
+
+      const ratio = Math.min(
+        designArea.width / imgElement.width,
+        designArea.height / imgElement.height
+      );
+      image.scale(ratio);
+
+      image.set({
+        left: (designArea.width - image.getScaledWidth()) / 2,
+        top: (designArea.height - image.getScaledHeight()) / 2,
+      });
+
+      if (currentImageRef.current) {
+        canvas.remove(currentImageRef.current);
+      }
+
+      canvas.add(image);
+      currentImageRef.current = image;
+      canvas.renderAll();
+    };
   };
 
   const [selectedColor, setSelectedColor] = useState(options.color.value);
@@ -457,28 +518,80 @@ const DesignConfigurator2 = () => {
               style={{ marginBottom: "10px" }}
             >
               <Label>Image: </Label>
-              <div className="custom-file-input ">
-                <input
-                  type="file"
-                  id="file-upload"
-                  accept="image/*"
-                  onChange={handleAddImage}
-                  hidden
-                />
-                <label
-                  htmlFor="file-upload"
-                  className="file-label cursor-pointer "
+              <div className="flex items-center gap-3">
+                <div className="custom-file-input ">
+                  <input
+                    type="file"
+                    id="file-upload"
+                    accept="image/*"
+                    onChange={handleAddImage}
+                    hidden
+                  />
+                  <label
+                    htmlFor="file-upload"
+                    className="file-label cursor-pointer "
+                    style={{
+                      backgroundColor: "#000",
+                      color: "white",
+                      padding: "5px 10px",
+                      borderRadius: "8px",
+                    }}
+                  >
+                    Entrer une image <span className="icon">📁</span>
+                  </label>
+                </div>
+
+                <button
                   style={{
                     backgroundColor: "#16a34a",
                     color: "white",
-                    padding: "5px 10px",
+                    padding: "3px 10px",
                     borderRadius: "8px",
+                    maxWidth: "181px",
                   }}
+                  onClick={() => setMenuOpen(!menuOpen)}
+                  className="bg-blue-500 text-white rounded"
                 >
-                  Choisir un Image <span className="icon">📁</span>
-                </label>
+                  Galerie
+                </button>
               </div>
             </div>
+
+            {menuOpen && (
+              <div
+                className="absolute bg-white border border-gray-300 shadow-lg mt-1 p-1 max-h-[300px] overflow-y-auto"
+                style={{
+                  maxHeight: "300px",
+                  maxWidth: "80%",
+                  overflowY: "auto",
+                  zIndex: "10000",
+                }}
+              >
+                <ul
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    justifyContent: "center",
+                  }}
+                  className=" gap-5"
+                >
+                  {predefinedImages.map((src, index) => (
+                    <li key={index} className="my-2 border border-gray-300">
+                      <img
+                        src={src}
+                        alt={`Predefined ${index}`}
+                        className="w-20 h-20 object-cover cursor-pointer"
+                        onClick={() => {
+                          handlePredefinedImageClick(src);
+                          setMenuOpen(false); // Close the menu after selection
+                        }}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             <Label>Produit: {options.product.label}</Label>
 
             <div className="flex items-center gap-5 my-3">

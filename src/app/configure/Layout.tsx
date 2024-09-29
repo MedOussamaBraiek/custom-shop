@@ -1,3 +1,5 @@
+"use client";
+
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import Steps from "@/components/Steps";
 import { ReactNode } from "react";
