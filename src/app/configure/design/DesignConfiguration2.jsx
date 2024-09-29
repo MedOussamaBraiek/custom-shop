@@ -304,6 +304,8 @@ const DesignConfigurator2 = () => {
         canvas.remove(currentImageRef.current);
       }
 
+      setUploadedImage(imageSrc);
+
       canvas.add(image);
       currentImageRef.current = image;
       canvas.renderAll();
@@ -381,6 +383,8 @@ const DesignConfigurator2 = () => {
           // link.download = "tshirt_design.png";
           // link.click();
 
+          console.log(uploadedImage);
+
           // Save all the config
           const designConfig = {
             productType,
@@ -397,7 +401,7 @@ const DesignConfigurator2 = () => {
                 ? 20_00
                 : formatPrice(0),
           };
-          // console.log("Design Config:", designConfig);
+          console.log("Design Config:", designConfig);
 
           localStorage.setItem("designConfig", JSON.stringify(designConfig));
           router.push("/configure/preview");
@@ -583,7 +587,7 @@ const DesignConfigurator2 = () => {
                         className="w-20 h-20 object-cover cursor-pointer"
                         onClick={() => {
                           handlePredefinedImageClick(src);
-                          setMenuOpen(false); // Close the menu after selection
+                          setMenuOpen(false);
                         }}
                       />
                     </li>
