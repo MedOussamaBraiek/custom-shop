@@ -162,19 +162,19 @@ const DesignPreview1 = ({
 
         <div className="mt-6 sm:col-span-9 md:row-end-1">
           <h3 className="text-xl font-bold tracking-tight text-gray-900">
-            Your {color} {productType.toUpperCase()}
+            Ton {color} {productType.toUpperCase()}
           </h3>
 
-          {size && <p className="mt-3 text-base">Size: {size}</p>}
+          {size && <p className="mt-3 text-base">Taille: {size}</p>}
 
           <div className="mt-3 flex items-center gap-1.5 text-base">
             <Check className="h-4 w-4 text-green-500" />
-            In stock and ready to ship
+            En stock et prêt à être expédié
           </div>
         </div>
 
-        <div className="sm:col-span-12 md:col-span-9 text-base">
-          <div className="grid grid-cols-1 gap-y-8 border-b border-gray-200 py-8 sm:grid-cols-2 sm:gap-x-6 sm:py-x-6 md:py-10">
+        <div className="sm:col-span-12 md:col-span-9 text-base sm:w-[60%]  w-[80%]">
+          {/* <div className="grid grid-cols-1 gap-y-8 border-b border-gray-200 py-8 sm:grid-cols-2 sm:gap-x-6 sm:py-x-6 md:py-10">
             <div>
               <p className="font-medium text-zinc-950">Highlights</p>
               <ol className="mt-3 text-zinc-700 list-disc list-inside">
@@ -191,7 +191,7 @@ const DesignPreview1 = ({
                 <li>Scratch and fingerprint resistant coating</li>
               </ol>
             </div>
-          </div>
+          </div> */}
 
           <div className="mt-8 ">
             <div className="bg-gray-50 p-6 sm:rounded-lg m:p-8">

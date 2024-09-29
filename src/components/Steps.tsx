@@ -24,13 +24,15 @@ const STEPS = [
 const Steps = () => {
   const pathname = usePathname();
 
+  console.log("steps!!");
+
   return (
     <ol className="rounded-md bg-white lg:flex lg:rounded-none lg:border-l lg:border-r lg:border-gray-200">
       {STEPS.map((step, i) => {
         const isCurrent = pathname.endsWith(step.url);
-        const isCompleted = STEPS.slice(i + 1).some((step) =>
-          pathname.endsWith(step.url)
-        );
+        const isCompleted =
+          i < STEPS.findIndex((s) => pathname.includes(s.url));
+
         const imgPath = `/step-${i + 1}.png`;
 
         return (

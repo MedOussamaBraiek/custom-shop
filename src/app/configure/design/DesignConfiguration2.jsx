@@ -315,10 +315,10 @@ const DesignConfigurator2 = () => {
 
           const finalDataUrl = offscreenCanvas.toDataURL("image/png");
 
-          const link = document.createElement("a");
-          link.href = finalDataUrl;
-          link.download = "tshirt_design.png";
-          link.click();
+          // const link = document.createElement("a");
+          // link.href = finalDataUrl;
+          // link.download = "tshirt_design.png";
+          // link.click();
 
           // Save all the config
           const designConfig = {
@@ -336,7 +336,7 @@ const DesignConfigurator2 = () => {
                 ? 20_00
                 : formatPrice(0),
           };
-          console.log("Design Config:", designConfig);
+          // console.log("Design Config:", designConfig);
 
           localStorage.setItem("designConfig", JSON.stringify(designConfig));
           router.push("/configure/preview");
@@ -452,11 +452,34 @@ const DesignConfigurator2 = () => {
 
             <div className="w-full h-px bg-zinc-200 my-6" />
 
-            <div className="flex flex-col gap-3 mb-5">
-              <Label>Upload Image: </Label>
-              <input type="file" accept="image/*" onChange={handleAddImage} />
+            <div
+              className="flex flex-col gap-3 mb-5"
+              style={{ marginBottom: "10px" }}
+            >
+              <Label>Image: </Label>
+              <div className="custom-file-input ">
+                <input
+                  type="file"
+                  id="file-upload"
+                  accept="image/*"
+                  onChange={handleAddImage}
+                  hidden
+                />
+                <label
+                  htmlFor="file-upload"
+                  className="file-label cursor-pointer "
+                  style={{
+                    backgroundColor: "#16a34a",
+                    color: "white",
+                    padding: "5px 10px",
+                    borderRadius: "8px",
+                  }}
+                >
+                  Choisir un Image <span className="icon">📁</span>
+                </label>
+              </div>
             </div>
-            <Label>Product: {options.product.label}</Label>
+            <Label>Produit: {options.product.label}</Label>
 
             <div className="flex items-center gap-5 my-3">
               <img

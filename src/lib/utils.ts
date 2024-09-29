@@ -18,7 +18,7 @@ export const formatPrice = (price: number) => {
 export function constructMetaData({
   title = "JOCKER-SHOP",
   description = "Create Custom Products",
-  image = "/thumbnail.png",
+  image = "/step-3.png",
   icons = "/favicon.ico",
 } : {
   title?: string,

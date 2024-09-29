@@ -40,6 +40,7 @@ const page = async () => {
   const lastWeekSum = await db.order.aggregate({
     where: {
       isPaid: false,
+      status: "fulfilled",
       createdAt: {
         gte: new Date(new Date().setDate(new Date().getDate() - 7)),
         // last week
@@ -53,6 +54,7 @@ const page = async () => {
   const lastMonthSum = await db.order.aggregate({
     where: {
       isPaid: false,
+      status: "fulfilled",
       createdAt: {
         gte: new Date(new Date().setDate(new Date().getDate() - 30)),
         // last week
