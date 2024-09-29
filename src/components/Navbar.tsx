@@ -56,10 +56,10 @@ const Navbar = async () => {
               <>
                 <Link
                   href="/api/auth/register"
-                  className={buttonVariants({
+                  className={`${buttonVariants({
                     size: "sm",
                     variant: "ghost",
-                  })}
+                  })} hidden sm:flex`}
                 >
                   Registre
                 </Link>
@@ -80,10 +80,11 @@ const Navbar = async () => {
                   href="/configure/design"
                   className={buttonVariants({
                     size: "sm",
-                    className: "hidden sm:flex items-center gap-1",
+                    className: " items-center gap-1",
                   })}
                 >
-                  Créer un produit
+                  <span className="hidden sm:flex"> Créer un produit</span>
+                  <span className="flex sm:hidden">Shop</span>
                   <ArrowRight className="ml-1.5 h-5 w-5" />
                 </Link>
               </>
