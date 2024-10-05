@@ -35,7 +35,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           const isCompleted =
             i < STEPS.findIndex((s) => pathname.includes(s.url));
 
-          const imgPath = `/step-${i + 1}.png`;
+          // const imgPath = `/step-${i + 1}.png`;
 
           return (
             <li key={step.name} className="relative overflow-hidden lg:flex-1">
@@ -58,7 +58,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   )}
                 >
                   <span className="flex-shrink-0">
-                    <img
+                    {/* <img
                       src={imgPath || "/step-3.png"}
                       className={cn(
                         "flex h-20 w-20 object-contain items-center justify-center",
@@ -67,7 +67,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                           "border-zinc-700": isCurrent,
                         }
                       )}
-                    />
+                    /> */}
                   </span>
 
                   <span className="ml-4 h-full mt-0.5 flex min-w-0 flex-col justify-center">
