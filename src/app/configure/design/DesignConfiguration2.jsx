@@ -388,10 +388,10 @@ const DesignConfigurator2 = () => {
           // Save all the config
           const designConfig = {
             productType,
-            color: selectedColor,
-            size: selectedSize,
-            uploadedImage: uploadedImage,
-            resultImage: finalDataUrl,
+            color: selectedColor || "white",
+            size: selectedSize || "L",
+            uploadedImage: uploadedImage || "",
+            resultImage: finalDataUrl || "",
             amount:
               productType === "shirt"
                 ? 30_00
@@ -465,7 +465,7 @@ const DesignConfigurator2 = () => {
   const pathname = usePathname();
 
   return (
-    <>
+    <div className="h-full mx-auto w-full max-w-screen-xl px-2.5 md:px-20">
       <ol className="rounded-md bg-white lg:flex lg:rounded-none lg:border-l lg:border-r lg:border-gray-200">
         {STEPS.map((step, i) => {
           const isCurrent = pathname.endsWith(step.url);
@@ -910,7 +910,7 @@ const DesignConfigurator2 = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

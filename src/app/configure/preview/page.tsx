@@ -45,6 +45,8 @@ const Page = () => {
     }
   }, []);
 
+  console.log(configuration);
+
   if (!configuration) {
     return <p>Loading or invalid configuration...</p>; // Handle the loading or invalid state
   }
