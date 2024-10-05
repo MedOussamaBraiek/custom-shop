@@ -123,7 +123,7 @@ const DesignConfigurator2 = () => {
 
   const defaultSizes = {
     shirt: { width: 400, height: 600 },
-    cup: { width: 450, height: 450 },
+    cup: { width: 400, height: 320 },
     sac: { width: 320, height: 500 },
   };
 
@@ -134,7 +134,7 @@ const DesignConfigurator2 = () => {
 
   const designAreas = {
     shirt: { x: 100, y: 120, width: 200, height: 380 },
-    cup: { x: -60, y: 10, width: 450, height: 310 },
+    cup: { x: -60, y: 10, width: 320, height: 290 },
     sac: { x: -5, y: 50, width: 270, height: 450 },
   };
 
@@ -447,7 +447,7 @@ const DesignConfigurator2 = () => {
 
   return (
     <div className="relative mt-20 grid grid-cols-1 lg:grid-cols-3 mb-20 pb-20">
-      <div className="relative h-[37.5rem] overflow-hidden col-span-2 w-full max-w-4xl flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-12 text-center focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ">
+      <div className="relative h-[37.5rem] overflow-hidden  w-full max-w-4xl flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-12 text-center focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 lg:col-span-2 col-span-full">
         {/* <TShirtDesigner /> */}
         <div
           style={{
