@@ -24,6 +24,7 @@ export default function Home() {
                   personnalisé
                 </span>{" "}
               </h1>
+
               <p className="mt-8 text-lg lg:pr-10 max-w-prose text-center lg:text-left text-balance md:text-wrap">
                 Capturez vos moments, héros, légendes ou mèmes préférés avec les
                 produits personnalisés de{" "}
@@ -126,7 +127,7 @@ export default function Home() {
                 <Icons.underline className="hidden sm:block pointer-events-none absolute inset-x-0 -bottom-6 text-green-500" />
               </span>{" "}
             </h2>
-            <img src="/snake-2.png" className="w-24 order-0 lg:order-2" />
+            <img src="/step-3.png" className="w-24 order-0 lg:order-2" />
           </div>
 
           <div className="mx-auto grid max-w-2xl grid-cols-1 px-4 lg:mx-0 lg:max-w-none lg:grid-cols-2 gap-y-16">
