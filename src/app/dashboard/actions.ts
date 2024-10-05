@@ -13,3 +13,15 @@ export const changeOrderStatus = async (
             }
         })
 }
+
+export const deleteOrder = async (id: string) => {
+    try {
+      await db.order.delete({
+        where: { id: id },
+      });
+      return { success: true, message: "Order deleted successfully" };
+    } catch (error) {
+      console.error("Error deleting order:", error);
+      return { success: false, message: "Failed to delete order" };
+    }
+  };

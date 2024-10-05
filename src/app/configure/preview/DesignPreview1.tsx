@@ -60,14 +60,14 @@ const DesignPreview1 = ({
     });
   };
 
+  const [disable, setDisable] = useState(false);
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("User Data:", formData);
 
     if (user) {
       // If user is logged in, proceed to create the configuration and order
       try {
-        console.log("Calling createCheckoutSession...");
+        setDisable(true);
 
         const response = await createCheckoutSession({
           formData: {
@@ -84,10 +84,7 @@ const DesignPreview1 = ({
           },
         });
 
-        console.log("Response from createCheckoutSession:", response);
-
         if (response.success) {
-          console.log("Order ID to navigate:", response.orderId);
           localStorage.setItem("orderId", JSON.stringify(response.orderId));
           toast({
             title: "Order Submitted",
@@ -105,6 +102,8 @@ const DesignPreview1 = ({
             "There was an issue with submitting your order. Please try again.",
           variant: "destructive",
         });
+      } finally {
+        setDisable(false);
       }
     } else {
       localStorage.setItem("configuration", JSON.stringify(formData));
@@ -274,7 +273,11 @@ const DesignPreview1 = ({
               </div>
 
               <div className="mt-8 flex justify-end pb-12">
-                <Button type="submit" className="px-4 sm:px-6 lg:px-8">
+                <Button
+                  type="submit"
+                  className="px-4 sm:px-6 lg:px-8"
+                  disabled={disable}
+                >
                   Soumettre <ArrowRight className="h-4 w-4 ml-1.5 inline" />
                 </Button>
               </div>

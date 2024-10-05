@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/table";
 import { formatPrice } from "@/lib/utils";
 import StatusDropdown from "./StatusDropdown";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   OrderStatus,
@@ -27,6 +27,7 @@ import {
   ProductType,
   ShirtSize,
 } from "@prisma/client";
+import { deleteOrder } from "./actions";
 
 interface User {
   id: string;
@@ -76,10 +77,41 @@ const DashboardPage = ({
   const MONTHLY_GOAL = 2000;
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1); // For pagination
+  const itemsPerPage = 7; // Number of items per page
+  const [myOrders, setMyOrders] = useState(orders);
 
   const openModal = (image: string) => setSelectedImage(image);
 
   const closeModal = () => setSelectedImage(null);
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentOrders = myOrders.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(orders.length / itemsPerPage);
+
+  const nextPage = () => {
+    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+  };
+
+  const previousPage = () => {
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+  };
+
+  const handleDelete = async (orderId: string) => {
+    const response = await deleteOrder(orderId);
+    if (response.success) {
+      const updatedOrders = myOrders.filter((order) => order.id !== orderId);
+      setMyOrders(updatedOrders);
+
+      if (updatedOrders.length === 0 && currentPage > 1) {
+        setCurrentPage((prevPage) => prevPage - 1);
+      }
+    } else {
+      console.error(response.message);
+    }
+  };
 
   return (
     <div className="flex min-h-screen w-full bg-muted/40 px-2">
@@ -135,11 +167,12 @@ const DashboardPage = ({
                 <TableHead className=" sm:table-cell">Images</TableHead>
                 <TableHead className=" sm:table-cell">Purchase date</TableHead>
                 <TableHead className="text-right">Amount</TableHead>
+                <TableHead className="text-right">Delete</TableHead>
               </TableRow>
             </TableHeader>
 
             <TableBody>
-              {orders.map((order) => (
+              {currentOrders.map((order) => (
                 <TableRow key={order.id} className="bg-accent">
                   <TableCell>
                     <div className="font-medium">
@@ -189,15 +222,48 @@ const DashboardPage = ({
                   <TableCell className="text-right">
                     {formatPrice(order.amount)}
                   </TableCell>
+                  <TableCell className="text-right">
+                    <button
+                      onClick={() => handleDelete(order.id)}
+                      className="text-black-600 hover:text-red-800"
+                    >
+                      X
+                    </button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
 
+          {/* Pagination controls */}
+          <div className="flex justify-between items-center mt-4">
+            <button
+              onClick={previousPage}
+              disabled={currentPage === 1}
+              className="px-4 py-2 bg-gray-300 rounded-md"
+            >
+              Previous
+            </button>
+            <span>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={nextPage}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 bg-gray-300 rounded-md"
+            >
+              Next
+            </button>
+          </div>
+
           {/* Modal for viewing larger images */}
           {selectedImage && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-              <div className="relative">
+            <div
+              className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+              onClick={closeModal}
+            >
+              <div className="relative" onClick={(e) => e.stopPropagation()}>
+                {/* Prevent modal from closing when clicking inside the modal (image or content) */}
                 <Image
                   src={selectedImage}
                   alt="Selected Image"

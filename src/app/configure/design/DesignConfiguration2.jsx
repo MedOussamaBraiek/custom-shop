@@ -321,10 +321,12 @@ const DesignConfigurator2 = () => {
     setSelectedSize(options.size.label);
   }, [options.color.value, options.size.label]);
 
+  const [disableButton, setDisableButton] = useState(false);
   const handleSaveDesign = () => {
     if (!canvas) return;
 
     try {
+      setDisableButton(true);
       const offscreenCanvas = document.createElement("canvas");
       const context = offscreenCanvas.getContext("2d");
 
@@ -383,8 +385,6 @@ const DesignConfigurator2 = () => {
           // link.download = "tshirt_design.png";
           // link.click();
 
-          console.log(uploadedImage);
-
           // Save all the config
           const designConfig = {
             productType,
@@ -401,19 +401,19 @@ const DesignConfigurator2 = () => {
                 ? 20_00
                 : formatPrice(0),
           };
-          console.log("Design Config:", designConfig);
 
           localStorage.setItem("designConfig", JSON.stringify(designConfig));
           router.push("/configure/preview");
         };
       };
     } catch (err) {
-      console.error("Error saving design:", err);
       toast({
         title: "Error",
         description: "There was an issue saving your design.",
         variant: "destructive",
       });
+    } finally {
+      setDisableButton(false);
     }
   };
 
@@ -801,6 +801,7 @@ const DesignConfigurator2 = () => {
                 onClick={() => handleSaveDesign()}
                 size="sm"
                 className="w-full"
+                disabled={disableButton}
               >
                 Continue
                 <ArrowRight className="h-4 w-4" />
