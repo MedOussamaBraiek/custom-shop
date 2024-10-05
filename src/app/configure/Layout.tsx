@@ -28,7 +28,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
 
   return (
-    <MaxWidthWrapper className="flex-1 flex flex-col">
+    <MaxWidthWrapper className="flex-1 flex flex-col items-center w-full">
       <ol className="rounded-md bg-white lg:flex lg:rounded-none lg:border-l lg:border-r lg:border-gray-200">
         {STEPS.map((step, i) => {
           const isCurrent = pathname.endsWith(step.url);
