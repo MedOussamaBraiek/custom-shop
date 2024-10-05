@@ -29,7 +29,7 @@ import { useUploadThing } from "@/lib/uploadthing";
 import { useToast } from "@/components/ui/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { saveConfig as _saveConfig, SaveConfigArgs } from "./actions";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import * as fabric from "fabric";
 
@@ -445,372 +445,472 @@ const DesignConfigurator2 = () => {
     }
   }, [designArea, canvas]);
 
+  const STEPS = [
+    {
+      name: "Étape 1 : Ajouter une image",
+      description: "Choisissez une image pour votre produit",
+      url: "/upload",
+    },
+    {
+      name: "Étape 2 : Personnaliser la conception",
+      description: "Personnalisez votre produit",
+      url: "/design",
+    },
+    {
+      name: "Étape 3 : Résumé",
+      description: "Révisez votre conception finale",
+      url: "/preview",
+    },
+  ];
+  const pathname = usePathname();
+
   return (
-    <div className="relative mt-20 grid grid-cols-1 lg:grid-cols-3 mb-20 pb-20 ">
-      <div className="relative h-[37.5rem] overflow-hidden  w-full max-w-4xl flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-12 text-center focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 lg:col-span-2 col-span-full">
-        {/* <TShirtDesigner /> */}
-        <div
-          style={{
-            position: "relative",
-            width: `${tshirtSize.width}px`,
-            height: `${tshirtSize.height}px`,
-            backgroundSize: "contain",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            backgroundImage: `url(${backgroundImage})`,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            // display: "flex",
-            // justifyContent: `${productType == "cup" ? "flex-start" : "center"}`,
-            // alignItems: "center",
-            // paddingTop: `${productType == "sac" ? "100px" : "0"}`,
-          }}
-        >
-          <canvas
-            ref={canvasRef}
-            style={{
-              border: `1px dotted gray`,
-            }}
-          ></canvas>
-        </div>
+    <>
+      <ol className="rounded-md bg-white lg:flex lg:rounded-none lg:border-l lg:border-r lg:border-gray-200">
+        {STEPS.map((step, i) => {
+          const isCurrent = pathname.endsWith(step.url);
+          const isCompleted =
+            i < STEPS.findIndex((s) => pathname.includes(s.url));
 
-        {options.product.value == "shirt" && (
-          <div className="absolute top-2 flex w-full justify-center gap-6">
-            <button
-              style={{ backgroundColor: "#16A34A" }}
-              className="bg-[#16A34A] text-white rounded-md px-2 py-0.5"
-              onClick={() => {
-                setBackgroundImage(
-                  `/tshirts/${options.color.value}-shirt-front.png`
-                );
-              }}
-            >
-              Face avant
-            </button>
-            <button
-              style={{ backgroundColor: "#16A34A" }}
-              className="bg-[#16A34A] text-white rounded-md px-2 py-0.5"
-              onClick={() => {
-                setBackgroundImage(
-                  `/tshirts/${options.color.value}-shirt-back.png`
-                );
-              }}
-            >
-              Face arrière
-            </button>
-          </div>
-        )}
-      </div>
+          const imgPath = `/step-${i + 1}.png`;
 
-      <div className="h-[37.5rem] w-full col-span-full lg:col-span-1  flex flex-col bg-white">
-        <ScrollArea className="relative flex-1 overflow-auto">
-          <div
-            aria-hidden="true"
-            className="absolute z-10 inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white pointer-events-none"
-          />
+          return (
+            <li key={step.name} className="relative overflow-hidden lg:flex-1">
+              <div>
+                <span
+                  className={cn(
+                    "absolute left-0 top-0 h-full w-1 bg-zinc-400 lg:bottom-0 lg:top-auto lg:h-1 lg:w-full",
+                    {
+                      "bg-zinc-700": isCurrent,
+                      "bg-primary": isCompleted,
+                    }
+                  )}
+                  aria-hidden="true"
+                />
 
-          <div className="px-8 pb-12 pt-8">
-            <h2 className="tracking-tight font-bold text-3xl">
-              Personnalisez votre produit{" "}
-            </h2>
-
-            <div className="w-full h-px bg-zinc-200 my-6" />
-
-            <div
-              className="flex flex-col gap-3 mb-5"
-              style={{ marginBottom: "10px" }}
-            >
-              <Label>Image: </Label>
-              <div className="flex items-center gap-3">
-                <div className="custom-file-input ">
-                  <input
-                    type="file"
-                    id="file-upload"
-                    accept="image/*"
-                    onChange={handleAddImage}
-                    hidden
-                  />
-                  <label
-                    htmlFor="file-upload"
-                    className="file-label cursor-pointer "
-                    style={{
-                      backgroundColor: "#000",
-                      color: "white",
-                      padding: "5px 10px",
-                      borderRadius: "8px",
-                    }}
-                  >
-                    Entrer une image <span className="icon">📁</span>
-                  </label>
-                </div>
-
-                <button
-                  style={{
-                    backgroundColor: "#16a34a",
-                    color: "white",
-                    padding: "3px 10px",
-                    borderRadius: "8px",
-                    maxWidth: "181px",
-                  }}
-                  onClick={() => setMenuOpen(!menuOpen)}
-                  className="bg-blue-500 text-white rounded"
+                <span
+                  className={cn(
+                    i !== 0 ? "lg:pl-9" : "",
+                    "flex items-center px-6 py-4 text-sm font-medium"
+                  )}
                 >
-                  Galerie
-                </button>
-              </div>
-            </div>
+                  <span className="flex-shrink-0">
+                    <img
+                      src={imgPath || "/step-3.png"}
+                      className={cn(
+                        "flex h-20 w-20 object-contain items-center justify-center",
+                        {
+                          "border-none": isCompleted,
+                          "border-zinc-700": isCurrent,
+                        }
+                      )}
+                    />
+                  </span>
 
-            {menuOpen && (
-              <div
-                className="absolute bg-white border border-gray-300 shadow-lg mt-1 p-1 max-h-[300px] overflow-y-auto"
-                style={{
-                  maxHeight: "300px",
-                  maxWidth: "80%",
-                  overflowY: "auto",
-                  zIndex: "10000",
+                  <span className="ml-4 h-full mt-0.5 flex min-w-0 flex-col justify-center">
+                    <span
+                      className={cn("text-sm font-semibold text-zinc-700", {
+                        "text-primary": isCompleted,
+                        "text-zinc-700": isCurrent,
+                      })}
+                    >
+                      {step.name}
+                    </span>
+                    <span className="text-sm text-zinc-500">
+                      {step.description}
+                    </span>
+                  </span>
+                </span>
+
+                {/* separator */}
+                {i !== 0 ? (
+                  <div className="absolute inset-0 hidden w-3 lg:block">
+                    <svg
+                      className="h-full w-full text-gray-300"
+                      viewBox="0 0 12 82"
+                      fill="none"
+                      preserveAspectRatio="none"
+                    >
+                      <path
+                        d="M0.5 0V31L10.5 41L0.5 51V82"
+                        stroke="currentcolor"
+                        vectorEffect="non-scaling-stroke"
+                      />
+                    </svg>
+                  </div>
+                ) : null}
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+
+      <div className="relative mt-20 grid grid-cols-1 lg:grid-cols-3 mb-20 pb-20 ">
+        <div className="relative h-[37.5rem] overflow-hidden  w-full max-w-4xl flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-12 text-center focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 lg:col-span-2 col-span-full">
+          {/* <TShirtDesigner /> */}
+          <div
+            style={{
+              position: "relative",
+              width: `${tshirtSize.width}px`,
+              height: `${tshirtSize.height}px`,
+              backgroundSize: "contain",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundImage: `url(${backgroundImage})`,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              // display: "flex",
+              // justifyContent: `${productType == "cup" ? "flex-start" : "center"}`,
+              // alignItems: "center",
+              // paddingTop: `${productType == "sac" ? "100px" : "0"}`,
+            }}
+          >
+            <canvas
+              ref={canvasRef}
+              style={{
+                border: `1px dotted gray`,
+              }}
+            ></canvas>
+          </div>
+
+          {options.product.value == "shirt" && (
+            <div className="absolute top-2 flex w-full justify-center gap-6">
+              <button
+                style={{ backgroundColor: "#16A34A" }}
+                className="bg-[#16A34A] text-white rounded-md px-2 py-0.5"
+                onClick={() => {
+                  setBackgroundImage(
+                    `/tshirts/${options.color.value}-shirt-front.png`
+                  );
                 }}
               >
-                <ul
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    justifyContent: "center",
-                  }}
-                  className=" gap-5"
-                >
-                  {predefinedImages.map((src, index) => (
-                    <li key={index} className="my-2 border border-gray-300">
-                      <img
-                        src={src}
-                        alt={`Predefined ${index}`}
-                        className="w-20 h-20 object-cover cursor-pointer"
-                        onClick={() => {
-                          handlePredefinedImageClick(src);
-                          setMenuOpen(false);
-                        }}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            <Label>Produit: {options.product.label}</Label>
-
-            <div className="flex items-center gap-5 my-3">
-              <img
-                src="/tshirts/white-shirt-front.png"
-                alt="shirt"
-                className="size-16 object-contain transition-all hover:scale-110 cursor-pointer mr-2"
+                Face avant
+              </button>
+              <button
+                style={{ backgroundColor: "#16A34A" }}
+                className="bg-[#16A34A] text-white rounded-md px-2 py-0.5"
                 onClick={() => {
-                  handleProductChange("shirt");
-                  setOptions((prev) => ({
-                    ...prev,
-                    product: {
-                      label: "Shirt",
-                      value: "shirt",
-                    },
-                  }));
+                  setBackgroundImage(
+                    `/tshirts/${options.color.value}-shirt-back.png`
+                  );
                 }}
-              />
-              <img
-                src="/cups/white-cup.png"
-                alt="cup"
-                className="size-14 object-contain transition-all hover:scale-110 cursor-pointer"
-                onClick={() => {
-                  handleProductChange("cup");
-                  setOptions((prev) => ({
-                    ...prev,
-                    product: {
-                      label: "Cup",
-                      value: "cup",
-                    },
-                  }));
-                }}
-              />
-              <img
-                src="/sac.png"
-                alt="sac"
-                className="size-14 object-contain transition-all hover:scale-110 cursor-pointer"
-                onClick={() => {
-                  handleProductChange("sac");
-                  setOptions((prev) => ({
-                    ...prev,
-                    product: {
-                      label: "Sac",
-                      value: "sac",
-                    },
-                  }));
-                }}
-              />
+              >
+                Face arrière
+              </button>
             </div>
+          )}
+        </div>
 
-            <Label>Couleur: {options.color.label}</Label>
+        <div className="h-[37.5rem] w-full col-span-full lg:col-span-1  flex flex-col bg-white">
+          <ScrollArea className="relative flex-1 overflow-auto">
+            <div
+              aria-hidden="true"
+              className="absolute z-10 inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white pointer-events-none"
+            />
 
-            {options.product.label === "Shirt" ? (
-              <div className="flex span-x-3 mt-3">
+            <div className="px-8 pb-12 pt-8">
+              <h2 className="tracking-tight font-bold text-3xl">
+                Personnalisez votre produit{" "}
+              </h2>
+
+              <div className="w-full h-px bg-zinc-200 my-6" />
+
+              <div
+                className="flex flex-col gap-3 mb-5"
+                style={{ marginBottom: "10px" }}
+              >
+                <Label>Image: </Label>
+                <div className="flex items-center gap-3">
+                  <div className="custom-file-input ">
+                    <input
+                      type="file"
+                      id="file-upload"
+                      accept="image/*"
+                      onChange={handleAddImage}
+                      hidden
+                    />
+                    <label
+                      htmlFor="file-upload"
+                      className="file-label cursor-pointer "
+                      style={{
+                        backgroundColor: "#000",
+                        color: "white",
+                        padding: "5px 10px",
+                        borderRadius: "8px",
+                      }}
+                    >
+                      Entrer une image <span className="icon">📁</span>
+                    </label>
+                  </div>
+
+                  <button
+                    style={{
+                      backgroundColor: "#16a34a",
+                      color: "white",
+                      padding: "3px 10px",
+                      borderRadius: "8px",
+                      maxWidth: "181px",
+                    }}
+                    onClick={() => setMenuOpen(!menuOpen)}
+                    className="bg-blue-500 text-white rounded"
+                  >
+                    Galerie
+                  </button>
+                </div>
+              </div>
+
+              {menuOpen && (
+                <div
+                  className="absolute bg-white border border-gray-300 shadow-lg mt-1 p-1 max-h-[300px] overflow-y-auto"
+                  style={{
+                    maxHeight: "300px",
+                    maxWidth: "80%",
+                    overflowY: "auto",
+                    zIndex: "10000",
+                  }}
+                >
+                  <ul
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      justifyContent: "center",
+                    }}
+                    className=" gap-5"
+                  >
+                    {predefinedImages.map((src, index) => (
+                      <li key={index} className="my-2 border border-gray-300">
+                        <img
+                          src={src}
+                          alt={`Predefined ${index}`}
+                          className="w-20 h-20 object-cover cursor-pointer"
+                          onClick={() => {
+                            handlePredefinedImageClick(src);
+                            setMenuOpen(false);
+                          }}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <Label>Produit: {options.product.label}</Label>
+
+              <div className="flex items-center gap-5 my-3">
                 <img
                   src="/tshirts/white-shirt-front.png"
                   alt="shirt"
-                  className="size-14 object-contain transition-all hover:scale-110 cursor-pointer mr-2"
-                  onClick={() =>
+                  className="size-16 object-contain transition-all hover:scale-110 cursor-pointer mr-2"
+                  onClick={() => {
+                    handleProductChange("shirt");
                     setOptions((prev) => ({
                       ...prev,
-                      color: {
-                        label: "Blanc",
-                        value: "white",
-                        tw: "white",
+                      product: {
+                        label: "Shirt",
+                        value: "shirt",
                       },
-                    }))
-                  }
+                    }));
+                  }}
                 />
-                <img
-                  src="/tshirts/black-shirt-front.png"
-                  alt="shirt"
-                  className="size-14 object-contain transition-all hover:scale-110 cursor-pointer"
-                  onClick={() =>
-                    setOptions((prev) => ({
-                      ...prev,
-                      color: {
-                        label: "Noir",
-                        value: "black",
-                        tw: "black",
-                      },
-                    }))
-                  }
-                />
-              </div>
-            ) : options.product.label === "Cup" ? (
-              <div className="flex gap-3 mt-3">
                 <img
                   src="/cups/white-cup.png"
                   alt="cup"
-                  className="size-14 object-contain transition-all hover:scale-110 cursor-pointer mr-2"
-                  onClick={() =>
+                  className="size-14 object-contain transition-all hover:scale-110 cursor-pointer"
+                  onClick={() => {
+                    handleProductChange("cup");
                     setOptions((prev) => ({
                       ...prev,
-                      color: {
-                        label: "Blanc",
-                        value: "white",
-                        tw: "white",
+                      product: {
+                        label: "Cup",
+                        value: "cup",
                       },
-                    }))
-                  }
+                    }));
+                  }}
                 />
                 <img
-                  src="/cups/black-cup.png"
-                  alt="cup"
+                  src="/sac.png"
+                  alt="sac"
+                  className="size-14 object-contain transition-all hover:scale-110 cursor-pointer"
+                  onClick={() => {
+                    handleProductChange("sac");
+                    setOptions((prev) => ({
+                      ...prev,
+                      product: {
+                        label: "Sac",
+                        value: "sac",
+                      },
+                    }));
+                  }}
+                />
+              </div>
+
+              <Label>Couleur: {options.color.label}</Label>
+
+              {options.product.label === "Shirt" ? (
+                <div className="flex span-x-3 mt-3">
+                  <img
+                    src="/tshirts/white-shirt-front.png"
+                    alt="shirt"
+                    className="size-14 object-contain transition-all hover:scale-110 cursor-pointer mr-2"
+                    onClick={() =>
+                      setOptions((prev) => ({
+                        ...prev,
+                        color: {
+                          label: "Blanc",
+                          value: "white",
+                          tw: "white",
+                        },
+                      }))
+                    }
+                  />
+                  <img
+                    src="/tshirts/black-shirt-front.png"
+                    alt="shirt"
+                    className="size-14 object-contain transition-all hover:scale-110 cursor-pointer"
+                    onClick={() =>
+                      setOptions((prev) => ({
+                        ...prev,
+                        color: {
+                          label: "Noir",
+                          value: "black",
+                          tw: "black",
+                        },
+                      }))
+                    }
+                  />
+                </div>
+              ) : options.product.label === "Cup" ? (
+                <div className="flex gap-3 mt-3">
+                  <img
+                    src="/cups/white-cup.png"
+                    alt="cup"
+                    className="size-14 object-contain transition-all hover:scale-110 cursor-pointer mr-2"
+                    onClick={() =>
+                      setOptions((prev) => ({
+                        ...prev,
+                        color: {
+                          label: "Blanc",
+                          value: "white",
+                          tw: "white",
+                        },
+                      }))
+                    }
+                  />
+                  <img
+                    src="/cups/black-cup.png"
+                    alt="cup"
+                    className="size-14 object-contain transition-all hover:scale-110 cursor-pointer"
+                    onClick={() =>
+                      setOptions((prev) => ({
+                        ...prev,
+                        color: {
+                          label: "Noir",
+                          value: "black",
+                          tw: "black",
+                        },
+                      }))
+                    }
+                  />
+                </div>
+              ) : (
+                <img
+                  src="/sac.png"
+                  alt="sac"
                   className="size-14 object-contain transition-all hover:scale-110 cursor-pointer"
                   onClick={() =>
                     setOptions((prev) => ({
                       ...prev,
                       color: {
-                        label: "Noir",
-                        value: "black",
-                        tw: "black",
+                        label: "Beige",
+                        value: "beige",
+                        tw: "amber-100",
                       },
                     }))
                   }
                 />
-              </div>
-            ) : (
-              <img
-                src="/sac.png"
-                alt="sac"
-                className="size-14 object-contain transition-all hover:scale-110 cursor-pointer"
-                onClick={() =>
-                  setOptions((prev) => ({
-                    ...prev,
-                    color: {
-                      label: "Beige",
-                      value: "beige",
-                      tw: "amber-100",
-                    },
-                  }))
-                }
-              />
-            )}
+              )}
 
-            {options.product.value === "shirt" && (
-              <div className="relative  mt-4 h-full flex flex-col justify-between">
-                <div className="flex flex-col gap-6">
-                  <div className="relative flex flex-col gap-3 w-full mt-2">
-                    <Label>Taille</Label>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="outline"
-                          role="combobox"
-                          className="w-full justify-between"
-                        >
-                          {options.size.label}
-                          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        {SIZES.options.map((size) => (
-                          <DropdownMenuItem
-                            key={size.label}
-                            className={cn(
-                              "flex text-sm gap-1 items-center p-1.5 cursor-default hover:bg-zinc-100",
-                              {
-                                "bg-zinc-100":
-                                  size.label === options.size.label,
-                              }
-                            )}
-                            onClick={() =>
-                              setOptions((prev) => ({ ...prev, size }))
-                            }
+              {options.product.value === "shirt" && (
+                <div className="relative  mt-4 h-full flex flex-col justify-between">
+                  <div className="flex flex-col gap-6">
+                    <div className="relative flex flex-col gap-3 w-full mt-2">
+                      <Label>Taille</Label>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            className="w-full justify-between"
                           >
-                            <Check
+                            {options.size.label}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          {SIZES.options.map((size) => (
+                            <DropdownMenuItem
+                              key={size.label}
                               className={cn(
-                                "mr-2 h-4 w-4",
-                                size.label === options.size.label
-                                  ? "opacity-100"
-                                  : "opacity-0"
+                                "flex text-sm gap-1 items-center p-1.5 cursor-default hover:bg-zinc-100",
+                                {
+                                  "bg-zinc-100":
+                                    size.label === options.size.label,
+                                }
                               )}
-                            />
-                            {size.label}
-                          </DropdownMenuItem>
-                        ))}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                              onClick={() =>
+                                setOptions((prev) => ({ ...prev, size }))
+                              }
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  size.label === options.size.label
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )}
+                              />
+                              {size.label}
+                            </DropdownMenuItem>
+                          ))}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
-        </ScrollArea>
+              )}
+            </div>
+          </ScrollArea>
 
-        <div className="w-full px-8 h-16 bg-white">
-          <div className="h-5 w-full g-zinc-200" />
-          <div className="w-full h-full justify-end items-center">
-            <div className="w-full flex gap-6 items-center">
-              <p className="font-medium whitespace-nowrap">
-                {productType === "shirt"
-                  ? formatPrice(30_00 / 100)
-                  : productType === "cup"
-                  ? formatPrice(15_00 / 100)
-                  : formatPrice(20_00 / 100)}
-              </p>
-              <Button
-                // isLoading={isPending}
-                // disabled={isPending}
-                loadingText="Saving"
-                onClick={() => handleSaveDesign()}
-                size="sm"
-                className="w-full"
-                disabled={disableButton}
-              >
-                Continue
-                <ArrowRight className="h-4 w-4" />
-              </Button>
+          <div className="w-full px-8 h-16 bg-white">
+            <div className="h-5 w-full g-zinc-200" />
+            <div className="w-full h-full justify-end items-center">
+              <div className="w-full flex gap-6 items-center">
+                <p className="font-medium whitespace-nowrap">
+                  {productType === "shirt"
+                    ? formatPrice(30_00 / 100)
+                    : productType === "cup"
+                    ? formatPrice(15_00 / 100)
+                    : formatPrice(20_00 / 100)}
+                </p>
+                <Button
+                  // isLoading={isPending}
+                  // disabled={isPending}
+                  loadingText="Saving"
+                  onClick={() => handleSaveDesign()}
+                  size="sm"
+                  className="w-full"
+                  disabled={disableButton}
+                >
+                  Continue
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
